@@ -1,4 +1,4 @@
-package com.yang.music;
+package com.yang.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

@@ -1,4 +1,4 @@
-package com.yang.music;
+package com.yang.view;
 
 /**
  * Hello world!
