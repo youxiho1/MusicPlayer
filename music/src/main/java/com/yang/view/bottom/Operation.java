@@ -13,7 +13,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Operation extends JPanel {
-    private static Operation operation;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static Operation operation;
     private JLabel label_name;
     private JLabel label_singer;
     private JButton btn_prev;
@@ -56,7 +60,6 @@ public class Operation extends JPanel {
         Player.getInstance().setPlayMode(mode);
 
         btn_prev.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 Player player = Player.getInstance();
                 player.playPrev();
@@ -67,7 +70,6 @@ public class Operation extends JPanel {
 
 
         btn_play.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
 
             }
@@ -75,7 +77,6 @@ public class Operation extends JPanel {
 
 
         btn_next.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 Player player = Player.getInstance();
                 player.playNext();
@@ -88,7 +89,6 @@ public class Operation extends JPanel {
         //模式切换按钮文字初始化？？？》持久化存储？？？
 
         btn_mode.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 //切换ui
                 Player player = Player.getInstance();
@@ -106,7 +106,6 @@ public class Operation extends JPanel {
         });
 
         btn_like.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 SQLiteDatabase db = new SQLiteDatabase("music.db");
                 Player player = Player.getInstance();
