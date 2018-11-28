@@ -112,7 +112,7 @@ public class Operation extends JPanel {
                 Player player = Player.getInstance();
                 Music music = player.getNowMusic();
                 String md5value = music.getMd5value();
-                List<Music> result = db.query(Music.class, "Music", "isLike", "md5value=?", new String[] {md5value});
+                List<Music> result = db.query(Music.class, "Music", new String[] {"isLike"}, "md5value=?", new String[] {md5value});
                 if(result != null) {
                     music = result.get(0);
                 }
@@ -152,7 +152,7 @@ public class Operation extends JPanel {
         }
         String md5value = music.getMd5value();
         SQLiteDatabase db = new SQLiteDatabase("music.db");
-        List<Music> result = db.query(Music.class, "Music", "isLike", "md5value=?", new String[] {md5value});
+        List<Music> result = db.query(Music.class, "Music", new String[] {"isLike"}, "md5value=?", new String[] {md5value});
         if(result != null) {
             music = result.get(0);
         }

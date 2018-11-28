@@ -393,7 +393,7 @@ public class SQLiteDatabase{
      * @return a list over the result set.
      */
     //Offer a simplest query function
-    public <T> List<T> query(Class<Music> clazz, String table, String columns, String selection, String[] selectionArgs) {
+    public <T> List<T> query(Class<T> clazz, String table, String[] columns, String selection, String[] selectionArgs) {
         return query(clazz, false, table, columns, selection, selectionArgs, null, null, null, null);
     }
 
