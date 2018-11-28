@@ -10,12 +10,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Player{
-    private enum MODE {ORDER, RANDOM, SINGLE};
+    public enum MODE {ORDER, RANDOM, SINGLE};
     private MODE playMode;
     private Music nowMusic;
+    private List<Music> nowList;
     private List<Music> playList;
     private static Player player;
     private AdvancedPlayer advancedPlayer;
@@ -36,7 +39,50 @@ public class Player{
         playMode = MODE.ORDER;
         nowMusic = null;
         playList = new ArrayList<Music>();
+        nowList = new ArrayList<Music>();
         advancedPlayer = null;
+    }
+
+    public List<Music> getPlayList() {
+        return playList;
+    }
+
+    public void setPlayList(List<Music> playList) {
+        this.playList = playList;
+    }
+
+    public List<Music>  getNowList() {
+        return nowList;
+    }
+
+    public void setNowList(List<Music> nowList) {
+        this.nowList = nowList;
+    }
+
+    public MODE getPlayMode() {
+        return playMode;
+    }
+
+    public void setPlayMode(MODE playMode) {
+        this.playMode = playMode;
+        switch (this.playMode) {
+            case ORDER:     //ORDER由SINGLE变过来的
+                break;
+            case SINGLE:    //SINGLE由RANDOM变过来的
+                changePlayList();
+                break;
+            case RANDOM:    //RADOM由ORDER变过来的
+                Collections.shuffle(playList);
+                break;
+        }
+    }
+
+    public void setNowMusic(Music nowMusic) {
+        this.nowMusic = nowMusic;
+    }
+
+    public Music getNowMusic() {
+        return nowMusic;
     }
 
     public void play() {
@@ -59,6 +105,10 @@ public class Player{
     //按照歌单顺序播放下一首
     public void playNext() {
         int size = (playList == null) ? 0 : playList.size();
+        if(size == 0) {
+            //???????????????????????????????????????????????
+            //???????????????????????????????????????????????
+        }
         int now = getNowPosition();
         if(now > 0) {
             if(now < size - 1) {
@@ -96,6 +146,7 @@ public class Player{
                 break;
             case SINGLE:
                 nowMusic = playList.get(getNowPosition());
+                //上面这句似乎不写也行？
                 play();
                 break;
         }
@@ -104,22 +155,6 @@ public class Player{
     public void close() {
         nowMusic = null;
         player.close();
-    }
-
-    public MODE getPlayMode() {
-        return playMode;
-    }
-
-    public void setPlayMode(MODE playMode) {
-        this.playMode = playMode;
-    }
-
-    public void setNowMusic(Music nowMusic) {
-        this.nowMusic = nowMusic;
-    }
-
-    public Music getNowMusic() {
-        return nowMusic;
     }
 
     private int getNowPosition() {
@@ -134,8 +169,12 @@ public class Player{
         return -1;
     }
 
-    public void addMusic(Music music) {
+    public void addPlayMusic(Music music) {
         playList.add(music);
+    }
+
+    public void addNowMusic(Music music) {
+        nowList.add(music);
     }
 
     public void clearAll() {
@@ -144,11 +183,14 @@ public class Player{
     }
 
     //切换歌单时调用
-    public void addMusicList(List<Music> list) {
-        list.clear();
-        for(Music music : list) {
-            list.add(music);
-        }
+    private void changePlayList() {
+        playList.clear();
+        playList.addAll(nowList);
+    }
+
+    public void changeNowList(List<Music> newList) {
+        nowList.clear();
+        nowList.addAll(newList);
     }
 }
 

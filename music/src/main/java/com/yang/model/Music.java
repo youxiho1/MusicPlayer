@@ -7,7 +7,7 @@ public class Music {
     private String singer;
     private String url;
     private int count;
-
+    private int islike;
 
     public Music() {
     }
@@ -20,6 +20,14 @@ public class Music {
         this.singer = singer;
         this.url = url;
         this.count = 0;
+    }
+
+    public int getIslike() {
+        return islike;
+    }
+
+    public void setIslike(int islike) {
+        this.islike = islike;
     }
 
     public int getId() {

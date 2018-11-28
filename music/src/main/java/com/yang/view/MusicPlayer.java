@@ -1,5 +1,6 @@
 package com.yang.view;
 
+import com.yang.model.Music;
 import com.yang.model.MusicSheet;
 import com.yang.util.SQLiteDatabase;
 import com.yang.view.bottom.Operation;
@@ -8,9 +9,11 @@ import com.yang.view.west.StarMusicSheetPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MusicPlayer extends JFrame {
+
     public MusicPlayer() {
         SQLiteDatabase db = new SQLiteDatabase("music.db");
         final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
@@ -22,7 +25,17 @@ public class MusicPlayer extends JFrame {
                 + "dateCreated text, "
                 + "picture text, "
                 + "flag integer)";
+        final String CREATE_MUSIC = "create table if not exists Music ("
+                + "id integer primary key autoincrement, "
+                + "md5value text, "
+                + "name text, "
+                + "singer text, "
+                + "url text, "
+                + "count integer, "
+                + "isLike integer)";
         db.executeSQL(CREATE_MUSICSHEET);
+        db.executeSQL(CREATE_MUSIC);
+
         setTitle("音乐播放器");
         setSize(1100,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +53,7 @@ public class MusicPlayer extends JFrame {
 
 
         //South
-        Operation operation = new Operation();
+        Operation operation = Operation.getInstance();
 
         //Finally
         add(BorderLayout.WEST, westPanel);

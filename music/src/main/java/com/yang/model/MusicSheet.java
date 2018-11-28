@@ -102,4 +102,10 @@ public class MusicSheet {
     public void setFlag(int flag) {
         this.flag = flag;
     }
+
+    public Boolean equals(MusicSheet another) {
+        return id == another.getId() && uuid.equals(another.getUuid()) && name.equals(another.getName())
+                && creator.equals(another.getCreator()) && creatorid.equals(another.getCreatorid())
+                && datecreated.equals(another.getDatecreated()) && flag == another.getFlag();
+    }
 }
