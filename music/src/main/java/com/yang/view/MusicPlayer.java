@@ -1,21 +1,57 @@
 package com.yang.view;
 
-import com.yang.model.Music;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
 import com.yang.model.MusicSheet;
 import com.yang.util.SQLiteDatabase;
 import com.yang.view.bottom.Operation;
 import com.yang.view.west.LocalMusicSheetPanel;
 import com.yang.view.west.StarMusicSheetPanel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
 public class MusicPlayer extends JFrame {
 
-    public MusicPlayer() {
-        SQLiteDatabase db = new SQLiteDatabase("music.db");
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTextField textField;
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new MusicPlayer().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public MusicPlayer() {
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setBounds(100, 100, 450, 300);
+//		contentPane = new JPanel();
+//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+//		contentPane.setLayout(new BorderLayout(0, 0));
+//		setContentPane(contentPane);
+		SQLiteDatabase db = new SQLiteDatabase("music.db");
         final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
                 + "id integer primary key autoincrement, "
                 + "uuid text, "
@@ -51,17 +87,14 @@ public class MusicPlayer extends JFrame {
         westPanel.add(localMusicSheetPanel);
         westPanel.add(starMusicSheetPanel);
 
-
+        //North
+        
         //South
         Operation operation = Operation.getInstance();
 
         //Finally
         add(BorderLayout.WEST, westPanel);
         add(BorderLayout.SOUTH, operation);
+	}
 
-    }
-
-    public static void main(String args[]) {
-        new MusicPlayer().setVisible(true);
-    }
 }
