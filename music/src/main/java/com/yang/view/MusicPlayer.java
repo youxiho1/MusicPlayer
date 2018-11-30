@@ -55,7 +55,7 @@ public class MusicPlayer extends JFrame {
 //		setContentPane(contentPane);
 		centerPanel = new JPanel();
 		SQLiteDatabase db = new SQLiteDatabase("music.db");
-        final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
+        /*final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
                 + "id integer primary key autoincrement, "
                 + "uuid text, "
                 + "name text, "
@@ -171,7 +171,7 @@ public class MusicPlayer extends JFrame {
         values.clear();
         values.put("musicsheetId", 5);
         values.put("id", 3);
-        db.insert("MusicSheet_Music", values);
+        db.insert("MusicSheet_Music", values);*/
 
 
         setTitle("音乐播放器");
@@ -182,8 +182,8 @@ public class MusicPlayer extends JFrame {
 		JPanel westPanel = new JPanel();
 		BoxLayout westLayout = new BoxLayout(westPanel, BoxLayout.Y_AXIS);
 		westPanel.setLayout(westLayout);
-		List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
-		List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
+		final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
+		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
 		LocalMusicSheetPanel localMusicSheetPanel = new LocalMusicSheetPanel(localMusicSheetList, this);
 		StarMusicSheetPanel starMusicSheetPanel = new StarMusicSheetPanel(starMusicSheetList, this);
 		westPanel.add(localMusicSheetPanel);
