@@ -24,7 +24,7 @@ public class LocalMusicSheetPanel extends JPanel {
         return localMusicSheetPanel;
     }
 
-    public LocalMusicSheetPanel(List<MusicSheet> musicSheetList, MusicPlayer musicPlayer) {
+    public LocalMusicSheetPanel(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
         localMusicSheetList = musicSheetList;
         setPreferredSize(new Dimension(100, 0));
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);

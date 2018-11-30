@@ -24,7 +24,7 @@ public class StarMusicSheetPanel extends JPanel {
         return starMusicSheetPanel;
     }
 
-    public StarMusicSheetPanel(List<MusicSheet> musicSheetList, MusicPlayer musicPlayer) {
+    public StarMusicSheetPanel(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
         starMusicSheetList = musicSheetList;
         setPreferredSize(new Dimension(100, 0));
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
