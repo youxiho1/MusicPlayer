@@ -8,6 +8,7 @@ public class Music {
     private String url;
     private int count;
     private int islike;
+    private int rowid;          //勿用
 
     public Music() {
     }
@@ -94,5 +95,13 @@ public class Music {
                 return false;
         }
         return false;
+    }
+
+    public int getRowid() {
+        return rowid;
+    }
+
+    public void setRowid(int rowid) {
+        this.rowid = rowid;
     }
 }

@@ -1,33 +1,85 @@
 package com.yang.view.west;
 
 import com.yang.model.MusicSheet;
+import com.yang.view.MusicPlayer;
+import com.yang.view.center.MusicSheetInformation;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 public class LocalMusicSheetPanel extends JPanel {
-    public LocalMusicSheetPanel(List<MusicSheet> musicSheetList) {
+    private static LocalMusicSheetPanel localMusicSheetPanel;
+    private JList<String> list;
+    private List<MusicSheet> localMusicSheetList;
+
+    public static LocalMusicSheetPanel getInstance() {
+        if(localMusicSheetPanel == null) {
+            localMusicSheetPanel = new LocalMusicSheetPanel(null, null);
+        }
+        return localMusicSheetPanel;
+    }
+
+    public LocalMusicSheetPanel(List<MusicSheet> musicSheetList, MusicPlayer musicPlayer) {
+        localMusicSheetList = musicSheetList;
         setPreferredSize(new Dimension(100, 0));
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
         JLabel title = new JLabel("我创建的歌单");
-        this.add(title);
         int size = (musicSheetList == null)? 0 : musicSheetList.size();
         String[] data = null;
         if(size > 0) {
-            String[] columnNames = new String[]{""};
             data = new String[size];
             for (int i = 0; i < size; i++) {
                 data[i] = musicSheetList.get(i).getName();
             }
         }
         //构建一个JList
-        JList<String> list = new JList<String>();
-        list.setPreferredSize(new Dimension(200, 100));
+        list = new JList<String>();
+        list.setPreferredSize(new Dimension(400, 100));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setListData(data);
-        JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        this.add(scrollPane);
+
+        list.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int index = list.getSelectedIndex();
+                if(index == -1) {
+                    JOptionPane.showMessageDialog(null, "您未选中任何歌单", "提示", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else {
+                    MusicSheet musicSheet = localMusicSheetList.get(index);
+                    MusicSheetInformation musicSheetInformation = new MusicSheetInformation(musicSheet);
+                    musicPlayer.changeCenterPanel(musicSheetInformation);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        this.add(title);
+        this.add(list);
     }
 }

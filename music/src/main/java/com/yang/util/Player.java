@@ -193,4 +193,3 @@ public class Player{
         nowList.addAll(newList);
     }
 }
-
