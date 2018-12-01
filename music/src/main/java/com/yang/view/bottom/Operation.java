@@ -31,6 +31,8 @@ public class Operation extends JPanel {
 
     private Operation() {
         setLayout(new FlowLayout());
+        setBackground(new Color(219,219,219));
+        setBorder(BorderFactory.createLineBorder(new Color(191,191,191)));//设置边框
         label_name = new JLabel();
         label_name.setText("");
 
@@ -39,18 +41,53 @@ public class Operation extends JPanel {
 
         //label初始化
 
-        btn_prev = new JButton("上一首");
-        btn_play = new JButton("播放");
-        btn_next = new JButton("下一首");
-        btn_like = new JButton("喜欢");
-
+        ImageIcon icon1 = new ImageIcon("resources\\prev.png");
+    	JButton btn_prev = new JButton(icon1);
+    	btn_prev.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
+    	btn_prev.setContentAreaFilled(false);//设置图片填满按钮所在的区域
+    	btn_prev.setFocusPainted(false);//设置这个按钮是不是获得焦点
+        btn_prev.setBorderPainted(false);//设置是否绘制边框
+        btn_prev.setBorder(null);//设置边框
+        
+        ImageIcon icon2 = new ImageIcon("resources\\play.png");
+    	JButton btn_play = new JButton(icon2);
+    	btn_play.setOpaque(false);
+    	btn_play.setContentAreaFilled(false);
+    	btn_play.setFocusPainted(false);
+    	btn_play.setBorderPainted(false);
+    	btn_play.setBorder(null);
+        
+        ImageIcon icon3 = new ImageIcon("resources\\next.png");
+    	JButton btn_next = new JButton(icon3);
+    	btn_next.setOpaque(false);
+    	btn_next.setContentAreaFilled(false);
+    	btn_next.setFocusPainted(false);
+    	btn_next.setBorderPainted(false);
+    	btn_next.setBorder(null);
+    	
+    	ImageIcon icon4 = new ImageIcon("resources\\like.png");
+    	final JButton btn_like = new JButton(icon4);
+    	btn_like.setOpaque(false);
+    	btn_like.setContentAreaFilled(false);
+    	btn_like.setFocusPainted(false);
+    	btn_like.setBorderPainted(false);
+    	btn_like.setBorder(null);
         //btn_like初始化???????????
-        //???????????????????????
 
         slider = new JSlider(0, 100, 0);
         slider.setPreferredSize(new Dimension(700, 60));
+        slider.setOpaque(false);
 
-        btn_mode = new JButton("模式切换");
+        //btn_mode = new JButton("模式切换");
+        ImageIcon icon5 = new ImageIcon("resources\\single.png");
+        ImageIcon icon6 = new ImageIcon("resources\\order.png");
+        ImageIcon icon7 = new ImageIcon("resources\\random.png");
+    	JButton btn_mode = new JButton(icon5);
+    	btn_mode.setOpaque(false);
+    	btn_mode.setContentAreaFilled(false);
+    	btn_mode.setFocusPainted(false);
+    	btn_mode.setBorderPainted(false);
+    	btn_mode.setBorder(null);
         Player.MODE mode = Player.MODE.ORDER;
         Player.getInstance().setPlayMode(mode);
 

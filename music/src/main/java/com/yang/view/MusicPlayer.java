@@ -2,10 +2,12 @@ package com.yang.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -24,11 +26,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class MusicPlayer extends JFrame {
 	private JPanel centerPanel;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -174,7 +172,8 @@ public class MusicPlayer extends JFrame {
         db.insert("MusicSheet_Music", values);*/
 
 
-        setTitle("音乐播放器");
+        //setTitle("音乐播放器");
+        setUndecorated(true);
         setSize(1100,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -182,6 +181,7 @@ public class MusicPlayer extends JFrame {
 		JPanel westPanel = new JPanel();
 		BoxLayout westLayout = new BoxLayout(westPanel, BoxLayout.Y_AXIS);
 		westPanel.setLayout(westLayout);
+		westPanel.setBackground(new Color(219,219,219));
 		final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
 		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
 		LocalMusicSheetPanel localMusicSheetPanel = new LocalMusicSheetPanel(localMusicSheetList, this);
@@ -195,25 +195,55 @@ public class MusicPlayer extends JFrame {
 
 		//South
 		Operation operation = Operation.getInstance();
+		
+		//North
+        JPanel northPanel = new JPanel();
+        northPanel.setBackground(new Color(246,246,246,244));
+        FlowLayout northLayout = (FlowLayout) northPanel.getLayout();
+        northLayout.setAlignment(FlowLayout.LEADING);
+
+        JLabel label = new JLabel("");
+        label.setIcon(new ImageIcon("resources\\main.png"));
+        label.setText("音乐播放器");
+        northPanel.add(label);
+        
+    	ImageIcon icon = new ImageIcon("resources\\min.png");
+    	JButton min = new JButton(icon);
+        min.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
+        min.setContentAreaFilled(false);//设置图片填满按钮所在的区域
+        min.setFocusPainted(false);//设置这个按钮是不是获得焦点
+        min.setBorderPainted(false);//设置是否绘制边框
+        min.setBorder(null);//设置边框
+        northPanel.add(min);
+
+        ImageIcon icon2 = new ImageIcon("resources\\close.png");
+    	JButton close = new JButton(icon2);
+    	close.setOpaque(false);
+    	close.setContentAreaFilled(false);
+    	close.setFocusPainted(false);
+    	close.setBorderPainted(false);
+    	close.setBorder(null);
+        northPanel.add(close);
 
 		//Finally
 		add(BorderLayout.WEST, westPanel);
 		add(BorderLayout.SOUTH, operation);
 		add(BorderLayout.CENTER, centerPanel);
-
-		JButton btn = new JButton("有毒");
-		add(BorderLayout.NORTH, btn);
-		btn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//changeCenterPanel(null);
-				MusicSheet musicSheet = localMusicSheetList.get(1);
-				System.out.println(musicSheet.getName());
-				MusicSheetInformation musicSheetInformation = new MusicSheetInformation(musicSheet);
-				//MusicPlayer.getInstance().changeCenterPanel(musicSheetInformation);
-				changeCenterPanel(musicSheetInformation);
-			}
-		});
+		add(BorderLayout.NORTH, northPanel);
+		
+//		JButton btn = new JButton("有毒");
+//		add(BorderLayout.NORTH, btn);
+//		btn.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				//changeCenterPanel(null);
+//				MusicSheet musicSheet = localMusicSheetList.get(1);
+//				System.out.println(musicSheet.getName());
+//				MusicSheetInformation musicSheetInformation = new MusicSheetInformation(musicSheet);
+//				//MusicPlayer.getInstance().changeCenterPanel(musicSheetInformation);
+//				changeCenterPanel(musicSheetInformation);
+//			}
+//		});
 	}
 
 	public void changeCenterPanel(MusicSheetInformation musicSheetInformation) {
