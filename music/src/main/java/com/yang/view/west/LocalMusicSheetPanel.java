@@ -13,7 +13,11 @@ import java.awt.event.MouseListener;
 import java.util.List;
 
 public class LocalMusicSheetPanel extends JPanel {
-    private static LocalMusicSheetPanel localMusicSheetPanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static LocalMusicSheetPanel localMusicSheetPanel;
     private JList<String> list;
     private List<MusicSheet> localMusicSheetList;
 
