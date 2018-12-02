@@ -30,10 +30,11 @@ public class LocalMusicSheetPanel extends JPanel {
 
     public LocalMusicSheetPanel(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
         localMusicSheetList = musicSheetList;
-        setPreferredSize(new Dimension(100, 0));
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
         JLabel title = new JLabel("我创建的歌单");
+        Font font = new Font("幼圆", Font.PLAIN, 16);//创建1个字体实例
+        title.setFont(font);//设置JLabel的字体
         int size = (musicSheetList == null)? 0 : musicSheetList.size();
         String[] data = null;
         if(size > 0) {
@@ -44,6 +45,9 @@ public class LocalMusicSheetPanel extends JPanel {
         }
         //构建一个JList
         list = new JList<String>();
+        Font font1 = new Font("幼圆", Font.PLAIN, 14);
+        list.setFont(font1);
+        list.setBackground(new Color(0, 0, 0, 0));
         list.setPreferredSize(new Dimension(400, 100));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setListData(data);

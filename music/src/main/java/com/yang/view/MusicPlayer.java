@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -181,7 +182,7 @@ public class MusicPlayer extends JFrame {
 		JPanel westPanel = new JPanel();
 		BoxLayout westLayout = new BoxLayout(westPanel, BoxLayout.Y_AXIS);
 		westPanel.setLayout(westLayout);
-//		westPanel.setBackground(new Color(230,230,230));
+		westPanel.setPreferredSize(new Dimension(170, 0));
 		final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
 		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
 		LocalMusicSheetPanel localMusicSheetPanel = new LocalMusicSheetPanel(localMusicSheetList, this);
@@ -204,6 +205,8 @@ public class MusicPlayer extends JFrame {
         northLayout.setAlignment(FlowLayout.LEADING);
 
         JLabel label = new JLabel("");
+        Font font = new Font("幼圆", Font.PLAIN, 18);//创建1个字体实例
+        label.setFont(font);//设置JLabel的字体
         label.setIcon(new ImageIcon("resources\\main.png"));
         label.setText("音乐播放器");
         northPanel.add(label);

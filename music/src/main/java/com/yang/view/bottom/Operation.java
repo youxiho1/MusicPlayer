@@ -21,6 +21,8 @@ public class Operation extends JPanel {
     private JButton btn_like;
     private JButton btn_mode;
     private JSlider slider;
+    private ImageIcon icon4 = new ImageIcon("resources\\unlike.png");
+	private ImageIcon icon8 = new ImageIcon("resources\\like.png");
 
     public static Operation getInstance() {
         if(operation == null) {
@@ -64,8 +66,7 @@ public class Operation extends JPanel {
     	btn_next.setFocusPainted(false);
     	btn_next.setBorderPainted(false);
     	btn_next.setBorder(null);
-    	
-    	ImageIcon icon4 = new ImageIcon("resources\\like.png");
+    
     	final JButton btn_like = new JButton(icon4);
     	btn_like.setOpaque(false);
     	btn_like.setContentAreaFilled(false);
@@ -77,6 +78,73 @@ public class Operation extends JPanel {
         slider = new JSlider(0, 100, 0);
         slider.setPreferredSize(new Dimension(700, 60));
         slider.setOpaque(false);
+        slider.setUI(new  javax.swing.plaf.metal.MetalSliderUI(){
+            @Override
+            public void paintThumb(Graphics g) {
+                //绘制指示物
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(new Color(23,171,227));
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.fillOval(thumbRect.x, thumbRect.y, thumbRect.width,
+                        thumbRect.height);//修改为圆形
+                //也可以帖图(利用鼠标事件转换image即可体现不同状态)
+                //g2d.drawImage(image, thumbRect.x, thumbRect.y, thumbRect.width,thumbRect.height,null);
+
+            }
+            public void paintTrack(Graphics g) {
+                //绘制刻度的轨迹
+                int cy,cw;
+                Rectangle trackBounds = trackRect;
+                if (slider.getOrientation() == JSlider.HORIZONTAL) {
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setPaint(new Color(248,248,248));
+                    cy = (trackBounds.height/2) - 2;
+                    cw = trackBounds.width;
+
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                            RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.translate(trackBounds.x, trackBounds.y + cy);
+                    g2.fillRect(0, -cy + 5, cw, cy);
+
+                    int trackLeft = 0;
+                    int trackRight = 0;
+                    trackRight = trackRect.width - 1;
+
+                    int middleOfThumb = 0;
+                    int fillLeft = 0;
+                    int fillRight = 0;
+                    //换算坐标
+                    middleOfThumb = thumbRect.x + (thumbRect.width / 2);
+                    middleOfThumb -= trackRect.x;
+
+                    if (!drawInverted()) {
+                        fillLeft = !slider.isEnabled() ? trackLeft : trackLeft + 1;
+                        fillRight = middleOfThumb;
+                        } else {
+                        fillLeft = middleOfThumb;
+                        fillRight = !slider.isEnabled() ? trackRight - 1
+                        : trackRight - 2;
+                        }
+                    //设定渐变
+                    g2.setPaint(new Color(125,197,235));
+                    g2.fillRect(0, -cy + 5, fillRight - fillLeft, cy);
+
+                    g2.setPaint(slider.getBackground());
+                    g2.fillRect(10, 10, cw, 5);
+
+                    g2.setPaint(new Color(125,197,235));
+                    g2.drawLine(0, cy, cw - 1, cy);
+
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_OFF);
+                    g2.translate(-trackBounds.x, -(trackBounds.y + cy));                    
+                }
+                else {
+                    super.paintTrack(g);
+                    }
+            }
+
+});
 
         //btn_mode = new JButton("模式切换");
         ImageIcon icon5 = new ImageIcon("resources\\single.png");
@@ -156,11 +224,11 @@ public class Operation extends JPanel {
                 ContentValues values = new ContentValues();
                 int res = db.update("Music", values, "md5value=?", new String[] {md5value});
                 if(res != -1 && is_liked == 0) {
-                    btn_like.setText("喜欢");
+                    btn_like.setIcon(icon8);
                     values.put("isLike", 1);
                 }
                 else if(res != -1 && is_liked == 1){
-                    btn_like.setText("取消喜欢");
+                    btn_like.setIcon(icon4);
                     values.put("isLike", 0);
                 }
             }
@@ -181,10 +249,10 @@ public class Operation extends JPanel {
         label_name.setText(music.getName());
         label_singer.setText(music.getSinger());
         if(music.getIslike() == 0) {
-            btn_like.setText("喜欢");
+        	btn_like.setIcon(icon8);
         }
         else {
-            btn_like.setText("取消喜欢");
+            btn_like.setIcon(icon4);
         }
         String md5value = music.getMd5value();
         SQLiteDatabase db = new SQLiteDatabase("music.db");
@@ -194,10 +262,10 @@ public class Operation extends JPanel {
         }
         int is_liked = music.getIslike();
         if(is_liked == 0) {
-            btn_like.setText("喜欢");
+        	btn_like.setIcon(icon8);
         }
         else {
-            btn_like.setText("取消喜欢");
+        	btn_like.setIcon(icon4);
         }
     }
 }
