@@ -34,6 +34,13 @@ public class LocalMusicSheetPanel extends JPanel {
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
 //        setPreferredSize(new Dimension(170, 300));
+        
+        JPanel localPanel = new JPanel();
+//      starPanel.setPreferredSize(new Dimension(910,33));
+        localPanel.setBackground(new Color(0, 0, 0, 0));
+        FlowLayout localLayout = (FlowLayout) localPanel.getLayout();
+        localLayout.setAlignment(FlowLayout.LEADING);
+        
         JLabel title = new JLabel("我创建的歌单");
         Font font = new Font("幼圆", Font.PLAIN, 16);//创建1个字体实例
         title.setFont(font);//设置JLabel的字体
@@ -50,7 +57,7 @@ public class LocalMusicSheetPanel extends JPanel {
         Font font1 = new Font("幼圆", Font.PLAIN, 14);
         list.setFont(font1);
         list.setBackground(new Color(0, 0, 0, 0));
-        list.setPreferredSize(new Dimension(400, 100));
+        list.setPreferredSize(new Dimension(170, 150));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setListData(data);
 
@@ -89,7 +96,8 @@ public class LocalMusicSheetPanel extends JPanel {
             }
         });
 
-        this.add(title);
-        this.add(list);
+        localPanel.add(title);
+        localPanel.add(list);
+        this.add(localPanel);
     }
 }

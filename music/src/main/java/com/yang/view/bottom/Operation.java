@@ -21,11 +21,11 @@ public class Operation extends JPanel {
     private JButton btn_like;
     private JButton btn_mode;
     private JSlider slider;
-    private ImageIcon icon4 = new ImageIcon("resources\\unlike.png");
-	private ImageIcon icon8 = new ImageIcon("resources\\like.png");
-	private ImageIcon icon5 = new ImageIcon("resources\\single.png");
-    private ImageIcon icon6 = new ImageIcon("resources\\order.png");
-    private ImageIcon icon7 = new ImageIcon("resources\\random.png");
+    private ImageIcon icon4 = new ImageIcon("resources/unlike.png");
+	private ImageIcon icon8 = new ImageIcon("resources/like.png");
+	private ImageIcon icon5 = new ImageIcon("resources/single.png");
+    private ImageIcon icon6 = new ImageIcon("resources/order.png");
+    private ImageIcon icon7 = new ImageIcon("resources/random.png");
 
     public static Operation getInstance() {
         if(operation == null) {
@@ -44,9 +44,15 @@ public class Operation extends JPanel {
         label_singer = new JLabel();
         label_singer.setText("");
 
+        JPanel eastPanel = new JPanel();
+//        eastPanel.setPreferredSize(new Dimension(910,33));
+        eastPanel.setBackground(new Color(244,244,244,244));
+        GridLayout eastGrid = new GridLayout();
+        eastGrid.setHgap(20);
+        eastPanel.setLayout(eastGrid);
+        
         //label初始化
-
-        ImageIcon icon1 = new ImageIcon("resources\\prev1.png");
+        ImageIcon icon1 = new ImageIcon("resources/prev1.png");
     	JButton btn_prev = new JButton(icon1);
     	btn_prev.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
     	btn_prev.setContentAreaFilled(false);//设置图片填满按钮所在的区域
@@ -54,7 +60,7 @@ public class Operation extends JPanel {
         btn_prev.setBorderPainted(false);//设置是否绘制边框
         btn_prev.setBorder(null);//设置边框
         
-        ImageIcon icon2 = new ImageIcon("resources\\play1.png");
+        ImageIcon icon2 = new ImageIcon("resources/play1.png");
     	JButton btn_play = new JButton(icon2);
     	btn_play.setOpaque(false);
     	btn_play.setContentAreaFilled(false);
@@ -62,7 +68,7 @@ public class Operation extends JPanel {
     	btn_play.setBorderPainted(false);
     	btn_play.setBorder(null);
         
-        ImageIcon icon3 = new ImageIcon("resources\\next1.png");
+        ImageIcon icon3 = new ImageIcon("resources/next1.png");
     	JButton btn_next = new JButton(icon3);
     	btn_next.setOpaque(false);
     	btn_next.setContentAreaFilled(false);
@@ -237,15 +243,18 @@ public class Operation extends JPanel {
             }
         });
 
+        eastPanel.add(btn_mode);
+        eastPanel.add(btn_like);
         this.add(label_name);
         this.add(label_singer);
-        this.add(btn_like);
+//        this.add(btn_like);
         this.add(btn_prev);
         this.add(btn_play);
         this.add(btn_next);
         this.add(slider);
-        this.add(btn_mode);
-        this.add(btn_like);
+        this.add(eastPanel);
+//        this.add(btn_mode);
+//        this.add(btn_like);
     }
 
     public void changeMusicInformation(Music music) {

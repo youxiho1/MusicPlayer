@@ -34,6 +34,12 @@ public class StarMusicSheetPanel extends JPanel {
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
 //        setPreferredSize(new Dimension(170, 300));
+        JPanel starPanel = new JPanel();
+//        starPanel.setPreferredSize(new Dimension(910,33));
+        starPanel.setBackground(new Color(0, 0, 0, 0));
+        FlowLayout starLayout = (FlowLayout) starPanel.getLayout();
+        starLayout.setAlignment(FlowLayout.LEADING);
+        
         JLabel title = new JLabel("我收藏的歌单");
         Font font = new Font("幼圆", Font.PLAIN, 16);
         title.setFont(font);
@@ -51,7 +57,7 @@ public class StarMusicSheetPanel extends JPanel {
         Font font1 = new Font("幼圆", Font.PLAIN, 14);
         list.setFont(font1);
         list.setBackground(new Color(0, 0, 0, 0));
-        list.setPreferredSize(new Dimension(400, 100));
+        list.setPreferredSize(new Dimension(170, 150));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setListData(data);
 
@@ -89,7 +95,9 @@ public class StarMusicSheetPanel extends JPanel {
 
             }
         });
-        this.add(title);
-        this.add(list);
+        
+        starPanel.add(title);
+        starPanel.add(list);
+        this.add(starPanel);
     }
 }

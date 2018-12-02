@@ -208,7 +208,7 @@ public class MusicPlayer extends JFrame {
         JLabel label = new JLabel("");
         Font font = new Font("幼圆", Font.PLAIN, 18);//创建1个字体实例
         label.setFont(font);//设置JLabel的字体
-        label.setIcon(new ImageIcon("resources\\main.png"));
+        label.setIcon(new ImageIcon("resources/main.png"));
         label.setText("音乐播放器");
         northPanel.add(label);
         

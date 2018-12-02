@@ -25,6 +25,7 @@ public class MusicSheetInformation extends JPanel {
     private MusicSheet musicSheet;
     private List<Music> preMusic;
     private Font font = new Font("幼圆", Font.PLAIN, 16);//创建1个字体实例
+    private Font font1 = new Font("幼圆", Font.PLAIN, 18);//创建1个字体实例
 
     public static MusicSheetInformation getInstance() {
         return musicSheetInformation;
@@ -34,29 +35,18 @@ public class MusicSheetInformation extends JPanel {
     	setBackground(Color.WHITE);
         this.musicSheet = nmusicSheet;
         JPanel northPanel = new JPanel();
-//        northPanel.setPreferredSize(new Dimension(910,40));
-        northPanel.setBackground(Color.white);
+        northPanel.setPreferredSize(new Dimension(910,33));
+        northPanel.setBackground(new Color(244,244,244,244));
         GridLayout northGrid = new GridLayout();
         northGrid.setHgap(10);
         northPanel.setLayout(northGrid);
         
-//    	ImageIcon icon = new ImageIcon("resources\\min.png");
-//    	JButton min = new JButton(icon);
-//        min.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
-//        min.setContentAreaFilled(false);//设置图片填满按钮所在的区域
-//        min.setFocusPainted(false);//设置这个按钮是不是获得焦点
-//        min.setBorderPainted(false);//设置是否绘制边框
-//        min.setBorder(null);//设置边框
-//        northPanel.add(min);
-//
-//        ImageIcon icon2 = new ImageIcon("resources\\close.png");
-//    	JButton close = new JButton(icon2);
-//    	close.setOpaque(false);
-//    	close.setContentAreaFilled(false);
-//    	close.setFocusPainted(false);
-//    	close.setBorderPainted(false);
-//    	close.setBorder(null);
-//        northPanel.add(close);
+        JPanel southPanel = new JPanel();
+        southPanel.setPreferredSize(new Dimension(910,440));
+        southPanel.setBackground(Color.white);
+        BoxLayout southLayout = new BoxLayout(southPanel, BoxLayout.Y_AXIS);
+		southPanel.setLayout(southLayout);
+        
         JLabel label_name = new JLabel(musicSheet.getName());
         JLabel label_creator = new JLabel(musicSheet.getCreator());
         JLabel label_createDate = new JLabel(musicSheet.getDatecreated());
@@ -65,10 +55,10 @@ public class MusicSheetInformation extends JPanel {
         JButton btn_download = new JButton("下载");
         JButton btn_revise = new JButton("编辑");
         JButton btn_add = new JButton("添加歌曲");
-        label_name.setFont(font);
+        label_name.setFont(font1);
 //        label_name.setIcon(new ImageIcon("resources\\main.png"));
-        label_creator.setFont(font);
-        label_createDate.setFont(font);
+        label_creator.setFont(font1);
+        label_createDate.setFont(font1);
         btn_playAll.setFont(font);
         btn_playAll.setBackground(Color.white);
         btn_star.setFont(font);
@@ -136,15 +126,19 @@ public class MusicSheetInformation extends JPanel {
         };
         table.setFont(font);
         //table.setPreferredSize(new Dimension(910,550));
-        table.getTableHeader().setFont(font);
+        table.getTableHeader().setFont(font1);
         table.getTableHeader().setBackground(Color.WHITE);
         table.setBackground(Color.WHITE);
+        table.setRowHeight(30);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //封面图？？？
-
+        southPanel.add(table.getTableHeader());
+        southPanel.add(table);
+        BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(layout);
         this.add(northPanel);
-        this.add(table.getTableHeader());
-        this.add(table);
+        this.add(southPanel);
+        
     }
 }
