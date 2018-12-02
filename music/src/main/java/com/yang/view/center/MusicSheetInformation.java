@@ -6,8 +6,10 @@ import com.yang.util.SQLiteDatabase;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -117,13 +119,23 @@ public class MusicSheetInformation extends JPanel {
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+				  Component component = super.prepareRenderer(renderer, row, column);
+				  if (row % 2 == 0) {  //将row改为column，则分列以不同颜色显示
+					  component.setBackground(new Color(244,244,244,244));
+					  }
+				  if (row % 2 == 1) {
+					  component.setBackground(Color.WHITE);
+					  }
+				  return component;
+			}
 			@Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+          public boolean isCellEditable(int row, int column) {
+              return false;
+          }
 
         };
+        
         table.setFont(font);
         //table.setPreferredSize(new Dimension(910,550));
         table.getTableHeader().setFont(font1);
@@ -138,7 +150,9 @@ public class MusicSheetInformation extends JPanel {
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
         this.add(northPanel);
-        this.add(southPanel);
-        
+        this.add(southPanel); 
+    }
+    protected Color colorForRow(int row) {
+        return (row % 2 == 0) ? Color.RED : Color.PINK;
     }
 }
