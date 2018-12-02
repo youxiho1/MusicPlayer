@@ -181,7 +181,7 @@ public class MusicPlayer extends JFrame {
 		JPanel westPanel = new JPanel();
 		BoxLayout westLayout = new BoxLayout(westPanel, BoxLayout.Y_AXIS);
 		westPanel.setLayout(westLayout);
-		westPanel.setBackground(new Color(219,219,219));
+//		westPanel.setBackground(new Color(230,230,230));
 		final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
 		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
 		LocalMusicSheetPanel localMusicSheetPanel = new LocalMusicSheetPanel(localMusicSheetList, this);
@@ -192,13 +192,14 @@ public class MusicPlayer extends JFrame {
 
 		//Center
 		centerPanel = new JPanel();
+		centerPanel.setBackground(new Color(248,248,248));
 
 		//South
 		Operation operation = Operation.getInstance();
 		
 		//North
         JPanel northPanel = new JPanel();
-        northPanel.setBackground(new Color(246,246,246,244));
+        northPanel.setBackground(new Color(244,244,244,244));
         FlowLayout northLayout = (FlowLayout) northPanel.getLayout();
         northLayout.setAlignment(FlowLayout.LEADING);
 

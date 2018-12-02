@@ -31,7 +31,7 @@ public class Operation extends JPanel {
 
     private Operation() {
         setLayout(new FlowLayout());
-        setBackground(new Color(219,219,219));
+        setBackground(new Color(233,233,233));
         setBorder(BorderFactory.createLineBorder(new Color(191,191,191)));//设置边框
         label_name = new JLabel();
         label_name.setText("");
@@ -41,7 +41,7 @@ public class Operation extends JPanel {
 
         //label初始化
 
-        ImageIcon icon1 = new ImageIcon("resources\\prev.png");
+        ImageIcon icon1 = new ImageIcon("resources\\prev1.png");
     	JButton btn_prev = new JButton(icon1);
     	btn_prev.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
     	btn_prev.setContentAreaFilled(false);//设置图片填满按钮所在的区域
@@ -49,7 +49,7 @@ public class Operation extends JPanel {
         btn_prev.setBorderPainted(false);//设置是否绘制边框
         btn_prev.setBorder(null);//设置边框
         
-        ImageIcon icon2 = new ImageIcon("resources\\play.png");
+        ImageIcon icon2 = new ImageIcon("resources\\play1.png");
     	JButton btn_play = new JButton(icon2);
     	btn_play.setOpaque(false);
     	btn_play.setContentAreaFilled(false);
@@ -57,7 +57,7 @@ public class Operation extends JPanel {
     	btn_play.setBorderPainted(false);
     	btn_play.setBorder(null);
         
-        ImageIcon icon3 = new ImageIcon("resources\\next.png");
+        ImageIcon icon3 = new ImageIcon("resources\\next1.png");
     	JButton btn_next = new JButton(icon3);
     	btn_next.setOpaque(false);
     	btn_next.setContentAreaFilled(false);

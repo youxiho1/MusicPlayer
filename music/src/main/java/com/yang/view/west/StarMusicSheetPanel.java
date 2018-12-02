@@ -13,7 +13,11 @@ import java.awt.event.MouseListener;
 import java.util.List;
 
 public class StarMusicSheetPanel extends JPanel {
-    private static StarMusicSheetPanel starMusicSheetPanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static StarMusicSheetPanel starMusicSheetPanel;
     private JList<String> list;
     private List<MusicSheet> starMusicSheetList;
 
