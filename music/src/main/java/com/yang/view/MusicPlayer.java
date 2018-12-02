@@ -21,6 +21,7 @@ import com.yang.util.ContentValues;
 import com.yang.util.SQLiteDatabase;
 import com.yang.view.bottom.Operation;
 import com.yang.view.center.MusicSheetInformation;
+import com.yang.view.center.MusicSheetInformation;
 import com.yang.view.west.LocalMusicSheetPanel;
 import com.yang.view.west.StarMusicSheetPanel;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -174,7 +175,7 @@ public class MusicPlayer extends JFrame {
 
 
         //setTitle("音乐播放器");
-        setUndecorated(true);
+        //setUndecorated(true);
         setSize(1100,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -193,14 +194,14 @@ public class MusicPlayer extends JFrame {
 
 		//Center
 		centerPanel = new JPanel();
-		centerPanel.setBackground(new Color(248,248,248));
-
+		centerPanel.setBackground(Color.WHITE);
+		
 		//South
 		Operation operation = Operation.getInstance();
 		
 		//North
         JPanel northPanel = new JPanel();
-        northPanel.setBackground(new Color(244,244,244,244));
+        northPanel.setBackground(new Color(248,248,248,248));
         FlowLayout northLayout = (FlowLayout) northPanel.getLayout();
         northLayout.setAlignment(FlowLayout.LEADING);
 
@@ -211,23 +212,23 @@ public class MusicPlayer extends JFrame {
         label.setText("音乐播放器");
         northPanel.add(label);
         
-    	ImageIcon icon = new ImageIcon("resources\\min.png");
-    	JButton min = new JButton(icon);
-        min.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
-        min.setContentAreaFilled(false);//设置图片填满按钮所在的区域
-        min.setFocusPainted(false);//设置这个按钮是不是获得焦点
-        min.setBorderPainted(false);//设置是否绘制边框
-        min.setBorder(null);//设置边框
-        northPanel.add(min);
-
-        ImageIcon icon2 = new ImageIcon("resources\\close.png");
-    	JButton close = new JButton(icon2);
-    	close.setOpaque(false);
-    	close.setContentAreaFilled(false);
-    	close.setFocusPainted(false);
-    	close.setBorderPainted(false);
-    	close.setBorder(null);
-        northPanel.add(close);
+//    	ImageIcon icon = new ImageIcon("resources\\min.png");
+//    	JButton min = new JButton(icon);
+//        min.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
+//        min.setContentAreaFilled(false);//设置图片填满按钮所在的区域
+//        min.setFocusPainted(false);//设置这个按钮是不是获得焦点
+//        min.setBorderPainted(false);//设置是否绘制边框
+//        min.setBorder(null);//设置边框
+//        northPanel.add(min);
+//
+//        ImageIcon icon2 = new ImageIcon("resources\\close.png");
+//    	JButton close = new JButton(icon2);
+//    	close.setOpaque(false);
+//    	close.setContentAreaFilled(false);
+//    	close.setFocusPainted(false);
+//    	close.setBorderPainted(false);
+//    	close.setBorder(null);
+//        northPanel.add(close);
 
 		//Finally
 		add(BorderLayout.WEST, westPanel);

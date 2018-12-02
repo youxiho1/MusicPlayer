@@ -23,6 +23,9 @@ public class Operation extends JPanel {
     private JSlider slider;
     private ImageIcon icon4 = new ImageIcon("resources\\unlike.png");
 	private ImageIcon icon8 = new ImageIcon("resources\\like.png");
+	private ImageIcon icon5 = new ImageIcon("resources\\single.png");
+    private ImageIcon icon6 = new ImageIcon("resources\\order.png");
+    private ImageIcon icon7 = new ImageIcon("resources\\random.png");
 
     public static Operation getInstance() {
         if(operation == null) {
@@ -33,8 +36,8 @@ public class Operation extends JPanel {
 
     private Operation() {
         setLayout(new FlowLayout());
-        setBackground(new Color(233,233,233));
-        setBorder(BorderFactory.createLineBorder(new Color(191,191,191)));//设置边框
+        setBackground(new Color(244,244,244,244));
+        setBorder(BorderFactory.createLineBorder(new Color(219,219,219)));//设置边框
         label_name = new JLabel();
         label_name.setText("");
 
@@ -147,10 +150,7 @@ public class Operation extends JPanel {
 });
 
         //btn_mode = new JButton("模式切换");
-        ImageIcon icon5 = new ImageIcon("resources\\single.png");
-        ImageIcon icon6 = new ImageIcon("resources\\order.png");
-        ImageIcon icon7 = new ImageIcon("resources\\random.png");
-    	JButton btn_mode = new JButton(icon5);
+    	final JButton btn_mode = new JButton(icon5);
     	btn_mode.setOpaque(false);
     	btn_mode.setContentAreaFilled(false);
     	btn_mode.setFocusPainted(false);
@@ -199,12 +199,15 @@ public class Operation extends JPanel {
                 Player.MODE mode = player.getPlayMode();
                 if(mode == Player.MODE.SINGLE) {
                     player.setPlayMode(Player.MODE.ORDER);
+                    btn_mode.setIcon(icon6);
                 }
                 else if(mode == Player.MODE.ORDER) {
                     player.setPlayMode(Player.MODE.RANDOM);
+                    btn_mode.setIcon(icon7);
                 }
                 else {
                     player.setPlayMode(Player.MODE.SINGLE);
+                    btn_mode.setIcon(icon5);
                 }
             }
         });

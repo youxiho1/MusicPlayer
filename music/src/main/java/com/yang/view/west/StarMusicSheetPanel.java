@@ -3,6 +3,7 @@ package com.yang.view.west;
 import com.yang.model.MusicSheet;
 import com.yang.view.MusicPlayer;
 import com.yang.view.center.MusicSheetInformation;
+import com.yang.view.center.MusicSheetInformation;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -32,6 +33,7 @@ public class StarMusicSheetPanel extends JPanel {
         starMusicSheetList = musicSheetList;
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
+//        setPreferredSize(new Dimension(170, 300));
         JLabel title = new JLabel("我收藏的歌单");
         Font font = new Font("幼圆", Font.PLAIN, 16);
         title.setFont(font);
