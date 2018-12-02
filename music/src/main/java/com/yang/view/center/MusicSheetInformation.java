@@ -5,8 +5,11 @@ import com.yang.model.MusicSheet;
 import com.yang.util.SQLiteDatabase;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -31,6 +34,30 @@ public class MusicSheetInformation extends JPanel {
 
     public static MusicSheetInformation getInstance() {
         return musicSheetInformation;
+    }
+    public void setTableHeaderColor(JTable table, int columnIndex, Color c) {
+        TableColumn column = table.getTableHeader().getColumnModel()
+                .getColumn(columnIndex);
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
+            /** serialVersionUID */
+            private static final long serialVersionUID = 43279841267L;
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, 
+                    Object value, boolean isSelected,boolean hasFocus,
+                    int row, int column) {
+
+                setHorizontalAlignment(JLabel.LEFT);// 表格内容居中
+                setPreferredSize(new Dimension(910,37));
+                ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
+                        .setHorizontalAlignment(DefaultTableCellRenderer.CENTER);// 列头内容居中
+
+                return super.getTableCellRendererComponent(table, value, 
+                        isSelected, hasFocus, row, column);
+            }
+        };
+        cellRenderer.setBackground(c);
+        column.setHeaderRenderer(cellRenderer);
     }
 
     public MusicSheetInformation(MusicSheet nmusicSheet) {
@@ -138,10 +165,10 @@ public class MusicSheetInformation extends JPanel {
         
         table.setFont(font);
         //table.setPreferredSize(new Dimension(910,550));
-        table.getTableHeader().setFont(font1);
-        table.getTableHeader().setBackground(Color.WHITE);
         table.setBackground(Color.WHITE);
         table.setRowHeight(30);
+        table.setShowGrid(false);
+        table.getTableHeader().setBorder(new EmptyBorder(0, 0, 0, 0));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //封面图？？？
@@ -151,8 +178,13 @@ public class MusicSheetInformation extends JPanel {
         setLayout(layout);
         this.add(northPanel);
         this.add(southPanel); 
+        this.setTableHeaderColor(table,0,Color.WHITE);
+        this.setTableHeaderColor(table,1,Color.WHITE);
+        this.setTableHeaderColor(table,2,Color.WHITE);
+        this.setTableHeaderColor(table,3,Color.WHITE);
     }
     protected Color colorForRow(int row) {
         return (row % 2 == 0) ? Color.RED : Color.PINK;
     }
+
 }
