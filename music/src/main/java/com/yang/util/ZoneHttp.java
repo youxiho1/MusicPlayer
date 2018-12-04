@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by RiddleLi on 2018/11/15.
- */
-
 public class ZoneHttp {
 
     //get请求的地址处理

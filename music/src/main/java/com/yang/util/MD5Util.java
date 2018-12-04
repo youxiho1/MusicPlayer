@@ -6,10 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Created by jonny on 2016/10/18 0018.
- */
-
 public class MD5Util {
     /**
      * md5加密

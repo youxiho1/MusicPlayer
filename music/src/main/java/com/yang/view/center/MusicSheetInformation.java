@@ -22,9 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MusicSheetInformation extends JPanel {
-    /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private static MusicSheetInformation musicSheetInformation;
     private MusicSheet musicSheet;

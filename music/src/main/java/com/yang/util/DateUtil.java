@@ -3,10 +3,6 @@ package com.yang.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by ouyangshen on 2016/9/24.
- * Modified by RiddleLi on 2018/6/3.
- */
 public class DateUtil {
     public static String getNowDateTime(String formatStr) {
         String format = formatStr;

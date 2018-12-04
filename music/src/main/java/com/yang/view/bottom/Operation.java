@@ -15,17 +15,13 @@ public class Operation extends JPanel {
     private static Operation operation;
     private JLabel label_name;
     private JLabel label_singer;
-    private JButton btn_prev;
-    private JButton btn_play;
-    private JButton btn_next;
     private JButton btn_like;
-    private JButton btn_mode;
     private JSlider slider;
-    private ImageIcon icon4 = new ImageIcon("resources/unlike.png");
-	private ImageIcon icon8 = new ImageIcon("resources/like.png");
-	private ImageIcon icon5 = new ImageIcon("resources/single.png");
-    private ImageIcon icon6 = new ImageIcon("resources/order.png");
-    private ImageIcon icon7 = new ImageIcon("resources/random.png");
+    private ImageIcon ic_unlike = new ImageIcon("resources/unlike.png");
+	private ImageIcon ic_like = new ImageIcon("resources/like.png");
+	private ImageIcon ic_single = new ImageIcon("resources/single.png");
+    private ImageIcon ic_order = new ImageIcon("resources/order.png");
+    private ImageIcon ic_random = new ImageIcon("resources/random.png");
 
     public static Operation getInstance() {
         if(operation == null) {
@@ -45,43 +41,26 @@ public class Operation extends JPanel {
         label_singer.setText("");
 
         JPanel eastPanel = new JPanel();
-//        eastPanel.setPreferredSize(new Dimension(910,33));
         eastPanel.setBackground(new Color(244,244,244,244));
         GridLayout eastGrid = new GridLayout();
         eastGrid.setHgap(20);
         eastPanel.setLayout(eastGrid);
         
         //label初始化
-        ImageIcon icon1 = new ImageIcon("resources/prev1.png");
-    	JButton btn_prev = new JButton(icon1);
-    	btn_prev.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
-    	btn_prev.setContentAreaFilled(false);//设置图片填满按钮所在的区域
-    	btn_prev.setFocusPainted(false);//设置这个按钮是不是获得焦点
-        btn_prev.setBorderPainted(false);//设置是否绘制边框
-        btn_prev.setBorder(null);//设置边框
+        ImageIcon ic_prev = new ImageIcon("resources/prev1.png");
+    	JButton btn_prev = new JButton(ic_prev);
+    	setButtonStyle(btn_prev);
         
-        ImageIcon icon2 = new ImageIcon("resources/play1.png");
-    	JButton btn_play = new JButton(icon2);
-    	btn_play.setOpaque(false);
-    	btn_play.setContentAreaFilled(false);
-    	btn_play.setFocusPainted(false);
-    	btn_play.setBorderPainted(false);
-    	btn_play.setBorder(null);
+        ImageIcon ic_play = new ImageIcon("resources/play1.png");
+    	JButton btn_play = new JButton(ic_play);
+    	setButtonStyle(btn_play);
         
         ImageIcon icon3 = new ImageIcon("resources/next1.png");
     	JButton btn_next = new JButton(icon3);
-    	btn_next.setOpaque(false);
-    	btn_next.setContentAreaFilled(false);
-    	btn_next.setFocusPainted(false);
-    	btn_next.setBorderPainted(false);
-    	btn_next.setBorder(null);
+    	setButtonStyle(btn_next);
     
-    	final JButton btn_like = new JButton(icon4);
-    	btn_like.setOpaque(false);
-    	btn_like.setContentAreaFilled(false);
-    	btn_like.setFocusPainted(false);
-    	btn_like.setBorderPainted(false);
-    	btn_like.setBorder(null);
+    	final JButton btn_like = new JButton(ic_like);
+    	setButtonStyle(btn_like);
         //btn_like初始化???????????
 
         slider = new JSlider(0, 100, 0);
@@ -156,12 +135,8 @@ public class Operation extends JPanel {
 });
 
         //btn_mode = new JButton("模式切换");
-    	final JButton btn_mode = new JButton(icon5);
-    	btn_mode.setOpaque(false);
-    	btn_mode.setContentAreaFilled(false);
-    	btn_mode.setFocusPainted(false);
-    	btn_mode.setBorderPainted(false);
-    	btn_mode.setBorder(null);
+    	final JButton btn_mode = new JButton(ic_order);
+    	setButtonStyle(btn_mode);
         Player.MODE mode = Player.MODE.ORDER;
         Player.getInstance().setPlayMode(mode);
 
@@ -205,15 +180,15 @@ public class Operation extends JPanel {
                 Player.MODE mode = player.getPlayMode();
                 if(mode == Player.MODE.SINGLE) {
                     player.setPlayMode(Player.MODE.ORDER);
-                    btn_mode.setIcon(icon6);
+                    btn_mode.setIcon(ic_order);
                 }
                 else if(mode == Player.MODE.ORDER) {
                     player.setPlayMode(Player.MODE.RANDOM);
-                    btn_mode.setIcon(icon7);
+                    btn_mode.setIcon(ic_random);
                 }
                 else {
                     player.setPlayMode(Player.MODE.SINGLE);
-                    btn_mode.setIcon(icon5);
+                    btn_mode.setIcon(ic_single);
                 }
             }
         });
@@ -233,11 +208,11 @@ public class Operation extends JPanel {
                 ContentValues values = new ContentValues();
                 int res = db.update("Music", values, "md5value=?", new String[] {md5value});
                 if(res != -1 && is_liked == 0) {
-                    btn_like.setIcon(icon8);
+                    btn_like.setIcon(ic_like);
                     values.put("isLike", 1);
                 }
                 else if(res != -1 && is_liked == 1){
-                    btn_like.setIcon(icon4);
+                    btn_like.setIcon(ic_unlike);
                     values.put("isLike", 0);
                 }
             }
@@ -247,24 +222,21 @@ public class Operation extends JPanel {
         eastPanel.add(btn_like);
         this.add(label_name);
         this.add(label_singer);
-//        this.add(btn_like);
         this.add(btn_prev);
         this.add(btn_play);
         this.add(btn_next);
         this.add(slider);
         this.add(eastPanel);
-//        this.add(btn_mode);
-//        this.add(btn_like);
     }
 
     public void changeMusicInformation(Music music) {
         label_name.setText(music.getName());
         label_singer.setText(music.getSinger());
         if(music.getIslike() == 0) {
-        	btn_like.setIcon(icon8);
+        	btn_like.setIcon(ic_like);
         }
         else {
-            btn_like.setIcon(icon4);
+            btn_like.setIcon(ic_unlike);
         }
         String md5value = music.getMd5value();
         SQLiteDatabase db = new SQLiteDatabase("music.db");
@@ -274,10 +246,17 @@ public class Operation extends JPanel {
         }
         int is_liked = music.getIslike();
         if(is_liked == 0) {
-        	btn_like.setIcon(icon8);
+        	btn_like.setIcon(ic_like);
         }
         else {
-        	btn_like.setIcon(icon4);
+        	btn_like.setIcon(ic_unlike);
         }
+    }
+    public void setButtonStyle(JButton btn) {
+    	btn.setOpaque(false);
+    	btn.setContentAreaFilled(false);
+    	btn.setFocusPainted(false);
+    	btn.setBorderPainted(false);
+    	btn.setBorder(null);
     }
 }

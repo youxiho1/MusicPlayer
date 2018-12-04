@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Modified by RiddleLi on 2018/11/16.
- */
-
 public final class ContentValues {
     public static final String TAG = "ContentValues";
 

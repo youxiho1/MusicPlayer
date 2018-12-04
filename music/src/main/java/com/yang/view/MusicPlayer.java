@@ -47,12 +47,6 @@ public class MusicPlayer extends JFrame {
 	 * Create the frame.
 	 */
 	public MusicPlayer() {
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 450, 300);
-//		contentPane = new JPanel();
-//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		contentPane.setLayout(new BorderLayout(0, 0));
-//		setContentPane(contentPane);
 		centerPanel = new JPanel();
 		SQLiteDatabase db = new SQLiteDatabase("music.db");
         /*final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
@@ -236,19 +230,6 @@ public class MusicPlayer extends JFrame {
 		add(BorderLayout.CENTER, centerPanel);
 		add(BorderLayout.NORTH, northPanel);
 		
-//		JButton btn = new JButton("有毒");
-//		add(BorderLayout.NORTH, btn);
-//		btn.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				//changeCenterPanel(null);
-//				MusicSheet musicSheet = localMusicSheetList.get(1);
-//				System.out.println(musicSheet.getName());
-//				MusicSheetInformation musicSheetInformation = new MusicSheetInformation(musicSheet);
-//				//MusicPlayer.getInstance().changeCenterPanel(musicSheetInformation);
-//				changeCenterPanel(musicSheetInformation);
-//			}
-//		});
 	}
 
 	public void changeCenterPanel(MusicSheetInformation musicSheetInformation) {
