@@ -2,6 +2,9 @@ package com.yang.view.center;
 
 import com.yang.model.Music;
 import com.yang.model.MusicSheet;
+import com.yang.util.AddFile;
+import com.yang.util.ContentValues;
+import com.yang.util.Player;
 import com.yang.util.SQLiteDatabase;
 
 import javax.swing.*;
@@ -11,22 +14,33 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MusicSheetInformation extends JPanel {
+public class MusicSheetInformation extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private static MusicSheetInformation musicSheetInformation;
     private MusicSheet musicSheet;
     private List<Music> preMusic;
+    private AddFile addFile; 
+    private JTable table; 
     private Font font = new Font("幼圆", Font.PLAIN, 16);//创建1个字体实例
     private Font font1 = new Font("幼圆", Font.PLAIN, 18);//创建1个字体实例
 
@@ -50,8 +64,9 @@ public class MusicSheetInformation extends JPanel {
                 ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
                         .setHorizontalAlignment(DefaultTableCellRenderer.CENTER);// 列头内容居中
 
-                return super.getTableCellRendererComponent(table, value, 
+                Component com = super.getTableCellRendererComponent(table, value, 
                         isSelected, hasFocus, row, column);
+                return com; 
             }
         };
         cellRenderer.setBackground(c);
@@ -62,7 +77,7 @@ public class MusicSheetInformation extends JPanel {
     	setBackground(Color.WHITE);
         this.musicSheet = nmusicSheet;
         JPanel northPanel = new JPanel();
-        northPanel.setPreferredSize(new Dimension(910,33));
+//        northPanel.setPreferredSize(new Dimension(910,33));
         northPanel.setBackground(new Color(244,244,244,244));
         GridLayout northGrid = new GridLayout();
         northGrid.setHgap(10);
@@ -81,7 +96,8 @@ public class MusicSheetInformation extends JPanel {
         JButton btn_star = new JButton("收藏");
         JButton btn_download = new JButton("下载");
         JButton btn_revise = new JButton("编辑");
-        JButton btn_add = new JButton("添加歌曲");
+        JButton btn_add = new JButton("添加歌曲(文件)"); 
+        btn_add.addActionListener(this);
         label_name.setFont(font1);
 //        label_name.setIcon(new ImageIcon("resources\\main.png"));
         label_creator.setFont(font1);
@@ -139,20 +155,33 @@ public class MusicSheetInformation extends JPanel {
 
         String[] columnNames = new String[] {"", "歌曲", "歌手", "时长"};
         DefaultTableModel tableModel = new DefaultTableModel(rowData, columnNames);
-        JTable table = new JTable(tableModel) {
+        table = new JTable(tableModel) {
             /**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
 			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-				  Component component = super.prepareRenderer(renderer, row, column);
-				  if (row % 2 == 0) {  //将row改为column，则分列以不同颜色显示
-					  component.setBackground(new Color(244,244,244,244));
-					  }
-				  if (row % 2 == 1) {
-					  component.setBackground(Color.WHITE);
-					  }
-				  return component;
+				Component component = super.prepareRenderer(renderer, row, column); 
+                Object value = getValueAt(row, column); 
+                boolean isSelected = false; 
+                boolean hasFocus = false; 
+                if (!isPaintingForPrint()) { 
+                    isSelected = isCellSelected(row, column); 
+                    boolean rowIsLead = 
+                            (selectionModel.getLeadSelectionIndex() == row); 
+                    boolean colIsLead = 
+                            (columnModel.getSelectionModel().getLeadSelectionIndex() == column);
+                    hasFocus = (rowIsLead && colIsLead) && isFocusOwner(); 
+                } 
+                if(!hasFocus && !isSelected) { 
+                    if (row % 2 == 0) {  //将row改为column，则分列以不同颜色显示 
+                        component.setBackground(new Color(244,244,244,244)); 
+                    } 
+                    if (row % 2 == 1) { 
+                        component.setBackground(Color.WHITE); 
+                    } 
+                } 
+                return component; 
 			}
 			@Override
           public boolean isCellEditable(int row, int column) {
@@ -167,8 +196,23 @@ public class MusicSheetInformation extends JPanel {
         table.setRowHeight(30);
         table.setShowGrid(false);
         table.getTableHeader().setBorder(new EmptyBorder(0, 0, 0, 0));
+        table.getTableHeader().setReorderingAllowed(false); 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setSelectionBackground(new Color(0)); 
+        table.addMouseListener(new MouseAdapter() { 
+            @Override 
+            public void mouseClicked(MouseEvent e) { 
+                if(e.getClickCount() == 2) { 
+                    int row = table.getSelectedRow(); 
+                    Music music = preMusic.get(row); 
+                    Player player = Player.getInstance(); 
+                    player.changeNowList(preMusic); 
+                    player.setNowMusic(music); 
+                    player.play(); 
+                } 
+            } 
+        }); 
         //封面图？？？
         southPanel.add(table.getTableHeader());
         southPanel.add(table);
@@ -184,5 +228,72 @@ public class MusicSheetInformation extends JPanel {
     protected Color colorForRow(int row) {
         return (row % 2 == 0) ? Color.RED : Color.PINK;
     }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(addFile == null)
+            addFile = new AddFile(this);
+        addFile.open();
+        File[] files = addFile.getFiles();
+        if(files != null){
+            DefaultTableModel dtm = (DefaultTableModel) table.getModel();//获取表格模型
+            for (int i = 0; i < files.length; i++) {
+                Music music = new Music();
+                String name = files[i].getName();
+                String singer = name;
 
+                music.setName(name);
+                music.setSinger(singer);
+                music.setUrl(files[i].getAbsolutePath());
+                String md5value = null;
+                try {
+                    md5value = DigestUtils.md5Hex(new FileInputStream(files[i].getAbsolutePath()));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                music.setMd5value(md5value);
+                music.setCount(0);
+                music.setIslike(0);
+                boolean flag = false;
+                for(int j = 0; j < preMusic.size();j++) {
+                    //查重
+                    Music music1 = preMusic.get(j);
+                    if(music.getMd5value().equals(music1.getMd5value())) {
+                        flag = true;
+                        //弹出提示框？？？
+                    }
+                }
+                if(!flag) {
+                    preMusic.add(music);
+                    SQLiteDatabase db = new SQLiteDatabase("music.db");
+                    List<Music> list = db.query(Music.class, "Music", null, "md5value=?", new String[] {md5value});
+                    if(list == null || list.size() == 0) {
+                        //插入
+                        ContentValues values = new ContentValues();
+                        values.put("md5value", md5value);
+                        values.put("name", name);
+                        values.put("singer", singer);
+                        values.put("url", files[i].getAbsolutePath());
+                        values.put("count", 0);
+                        values.put("islike", 0);
+                        db.insert("Music", values);
+                        list = db.query(Music.class, "Music", new String[] {"id"}, "md5value=?", new String[] {md5value});
+                        System.out.println(list.size());
+                    }
+                    int id = list.get(0).getId();
+                    int sheetId = musicSheet.getId();
+                    ContentValues values = new ContentValues();
+                    values.put("id", id);
+                    values.put("musicsheetid", sheetId);
+                    db.insert("Musicsheet_Music", values);
+                    String[] nrow = new String[4];
+                    nrow[0] = String.valueOf(preMusic.size());
+                    nrow[1] = name;
+                    nrow[2] = singer;
+                    //nrow[3] = ??
+                    dtm.addRow(nrow);
+                }
+            }
+            dtm.fireTableStructureChanged();
+        }
+    }
 }

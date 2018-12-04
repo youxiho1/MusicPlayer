@@ -40,9 +40,19 @@ public class StarMusicSheetPanel extends JPanel {
         FlowLayout starLayout = (FlowLayout) starPanel.getLayout();
         starLayout.setAlignment(FlowLayout.LEADING);
         
+        JPanel titlePanel = new JPanel();
         JLabel title = new JLabel("我收藏的歌单");
         Font font = new Font("幼圆", Font.PLAIN, 16);
         title.setFont(font);
+        ImageIcon ic_add = new ImageIcon("resources/add.png");
+		JButton btn_add = new JButton(ic_add);
+		btn_add.setOpaque(false);
+    	btn_add.setContentAreaFilled(false);
+    	btn_add.setFocusPainted(false);
+    	btn_add.setBorderPainted(false);
+    	btn_add.setBorder(null);
+        titlePanel.add(title);
+		titlePanel.add(btn_add);
         int size = (musicSheetList == null)? 0 : musicSheetList.size();
         String[] data = null;
         if(size > 0) {
@@ -96,7 +106,7 @@ public class StarMusicSheetPanel extends JPanel {
             }
         });
         
-        starPanel.add(title);
+        starPanel.add(titlePanel);
         starPanel.add(list);
         this.add(starPanel);
     }
