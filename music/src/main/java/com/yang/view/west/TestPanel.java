@@ -16,4 +16,8 @@ public class TestPanel extends JPanel {
         JButton btn = new JButton("添加新歌单");
 
     }
+
+    public static void main(String args[]) {
+
+    }
 }

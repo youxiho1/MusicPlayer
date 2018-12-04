@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Operation extends JPanel {
-    private static Operation operation;
     private JLabel label_name;
     private JLabel label_singer;
     private JButton btn_like;
@@ -23,14 +22,7 @@ public class Operation extends JPanel {
     private ImageIcon ic_order = new ImageIcon("resources/order.png");
     private ImageIcon ic_random = new ImageIcon("resources/random.png");
 
-    public static Operation getInstance() {
-        if(operation == null) {
-            operation =  new Operation();
-        }
-        return operation;
-    }
-
-    private Operation() {
+    public Operation() {
         setLayout(new FlowLayout());
         setBackground(new Color(244,244,244,244));
         setBorder(BorderFactory.createLineBorder(new Color(219,219,219)));//设置边框
@@ -59,7 +51,7 @@ public class Operation extends JPanel {
     	JButton btn_next = new JButton(icon3);
     	setButtonStyle(btn_next);
     
-    	final JButton btn_like = new JButton(ic_like);
+    	btn_like = new JButton(ic_like);
     	setButtonStyle(btn_like);
         //btn_like初始化???????????
 
@@ -145,8 +137,8 @@ public class Operation extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player player = Player.getInstance();
                 player.playPrev();
-                Music music = player.getNowMusic();
-                changeMusicInformation(music);
+//                Music music = player.getNowMusic();
+//                changeMusicInformation(music);
             }
         });
 
@@ -164,8 +156,8 @@ public class Operation extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player player = Player.getInstance();
                 player.playNext();
-                Music music = player.getNowMusic();
-                changeMusicInformation(music);
+//                Music music = player.getNowMusic();
+//                changeMusicInformation(music);
             }
         });
 
@@ -230,6 +222,7 @@ public class Operation extends JPanel {
     }
 
     public void changeMusicInformation(Music music) {
+        System.out.println(music.getName());
         label_name.setText(music.getName());
         label_singer.setText(music.getSinger());
         if(music.getIslike() == 0) {
@@ -252,6 +245,7 @@ public class Operation extends JPanel {
         	btn_like.setIcon(ic_unlike);
         }
     }
+
     public void setButtonStyle(JButton btn) {
     	btn.setOpaque(false);
     	btn.setContentAreaFilled(false);

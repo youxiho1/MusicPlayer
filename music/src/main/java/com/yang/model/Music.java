@@ -86,13 +86,8 @@ public class Music {
     public boolean equals(Object obj) {
         if(obj instanceof Music) {
             Music music = (Music) obj;
-            if(id == music.getId() && name.equals(music.getName())
-                    && singer.equals(music.getSinger()) && md5value.equals(music.getMd5value())
-                    && url.equals(music.getUrl())) {
-                return true;
-            }
-            else
-                return false;
+            return id == music.getId() && name.equals(music.getName())
+                    && singer.equals(music.getSinger()) && md5value.equals(music.getMd5value());
         }
         return false;
     }

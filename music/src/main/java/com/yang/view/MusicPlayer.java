@@ -18,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 
 import com.yang.model.MusicSheet;
 import com.yang.util.ContentValues;
+import com.yang.util.DateUtil;
+import com.yang.util.Player;
 import com.yang.util.SQLiteDatabase;
 import com.yang.view.bottom.Operation;
 import com.yang.view.center.MusicSheetInformation;
@@ -49,7 +51,7 @@ public class MusicPlayer extends JFrame {
 	public MusicPlayer() {
 		centerPanel = new JPanel();
 		SQLiteDatabase db = new SQLiteDatabase("music.db");
-        /*final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
+        final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
                 + "id integer primary key autoincrement, "
                 + "uuid text, "
                 + "name text, "
@@ -73,7 +75,7 @@ public class MusicPlayer extends JFrame {
         db.executeSQL(CREATE_MUSICSHEET);
         db.executeSQL(CREATE_MUSIC);
         db.executeSQL(CREATE_MUSICSHEET_MUSIC);
-
+/*
         //测试数据，记得删除
         ContentValues values = new ContentValues();
         values.put("name", "测试歌单1");
@@ -180,8 +182,40 @@ public class MusicPlayer extends JFrame {
 		westPanel.setPreferredSize(new Dimension(170, 0));
 		final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
 		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
-		LocalMusicSheetPanel localMusicSheetPanel = new LocalMusicSheetPanel(localMusicSheetList, this);
+		LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(localMusicSheetList, this);
 		StarMusicSheetPanel starMusicSheetPanel = new StarMusicSheetPanel(starMusicSheetList, this);
+
+		JButton btn_add = new JButton("创建新歌单");
+		btn_add.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String inputValue = JOptionPane.showInputDialog("请输入歌单的名字");
+				if(inputValue == null || inputValue.length() == 0) {
+					//?????????????????
+				}
+				else {
+					SQLiteDatabase db = new SQLiteDatabase("music.db");
+					ContentValues values = new ContentValues();
+					values.put("name", inputValue);
+					values.put("creatorId", "17020031119");
+					values.put("creator", "Yi Xiaoyang");
+					String nowTime = DateUtil.getNowDateTime("yyyy-MM-dd HH:mm:ss");
+					values.put("dateCreated", nowTime);
+					values.put("flag", 1);
+					db.insert("musicsheet", values);
+					MusicSheet sheet = new MusicSheet();
+					sheet.setName(inputValue);
+					sheet.setCreatorid("17020031119");
+					sheet.setCreator("Yi Xiaoyang");
+					sheet.setDatecreated(nowTime);
+					sheet.setFlag(1);
+					localMusicSheetList.add(sheet);
+					LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance();
+					localMusicSheetPanel.addMusicSheet(sheet);
+				}
+			}
+		});
+		westPanel.add(btn_add);
 		westPanel.add(localMusicSheetPanel);
 		westPanel.add(starMusicSheetPanel);
 		//westPanel.add(new JScrollBar());
@@ -191,7 +225,7 @@ public class MusicPlayer extends JFrame {
 		centerPanel.setBackground(Color.WHITE);
 		
 		//South
-		Operation operation = Operation.getInstance();
+		Operation operation = new Operation();
 		
 		//North
         JPanel northPanel = new JPanel();
@@ -229,7 +263,7 @@ public class MusicPlayer extends JFrame {
 		add(BorderLayout.SOUTH, operation);
 		add(BorderLayout.CENTER, centerPanel);
 		add(BorderLayout.NORTH, northPanel);
-		
+		Player player = Player.getInstance(operation);
 	}
 
 	public void changeCenterPanel(MusicSheetInformation musicSheetInformation) {

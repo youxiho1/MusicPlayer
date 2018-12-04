@@ -1,6 +1,7 @@
 package com.yang.util;
 
 import com.yang.model.Music;
+import com.yang.view.bottom.Operation;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.advanced.AdvancedPlayer;
@@ -22,6 +23,7 @@ public class Player{
     private List<Music> playList;
     private static Player player;
     private AdvancedPlayer advancedPlayer;
+    private static Operation operation;
 
     static {
         player = null;
@@ -33,6 +35,11 @@ public class Player{
             player = new Player();
         }
         return player;
+    }
+
+    public static Player getInstance(Operation operation2) {
+        operation = operation2;
+        return getInstance();
     }
 
     private Player() {
@@ -86,6 +93,7 @@ public class Player{
     }
 
     public void play() {
+        operation.changeMusicInformation(nowMusic);
         if(playList == null) {
             //如何处理？？弹出提示？？？
             return;
@@ -93,13 +101,19 @@ public class Player{
         if(playList != null && nowMusic == null) {
             nowMusic = playList.get(0);
         }
-        try {
-            BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(nowMusic.getUrl()));
-            advancedPlayer = new AdvancedPlayer(buffer);
-            advancedPlayer.play();
-        } catch (JavaLayerException | FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                BufferedInputStream buffer = null;
+                try {
+                    buffer = new BufferedInputStream(new FileInputStream(nowMusic.getUrl()));
+                    advancedPlayer = new AdvancedPlayer(buffer);
+                    advancedPlayer.play();
+                } catch (FileNotFoundException | JavaLayerException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     //按照歌单顺序播放下一首
@@ -186,6 +200,7 @@ public class Player{
     private void changePlayList() {
         playList.clear();
         playList.addAll(nowList);
+        Collections.shuffle(nowList);
     }
 
     public void changeNowList(List<Music> newList) {
