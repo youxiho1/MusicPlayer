@@ -161,13 +161,13 @@ public class MusicPlayer extends JFrame {
 		westPanel.setLayout(westLayout);
 		westPanel.setPreferredSize(new Dimension(170, 0));
 		final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
-		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
+//		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
 		LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(localMusicSheetList, this);
-		StarMusicSheetPanel starMusicSheetPanel = new StarMusicSheetPanel(starMusicSheetList, this);
+//		StarMusicSheetPanel starMusicSheetPanel = StarMusicSheetPanel.getInstance(starMusicSheetList, this);
 		
 		
 		westPanel.add(localMusicSheetPanel);
-		westPanel.add(starMusicSheetPanel);
+//		westPanel.add(starMusicSheetPanel);
 		//westPanel.add(new JScrollBar());
 
 		//Center

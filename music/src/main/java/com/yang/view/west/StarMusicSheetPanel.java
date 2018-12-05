@@ -14,14 +14,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import java.util.Vector;
 
 public class StarMusicSheetPanel extends JPanel {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static StarMusicSheetPanel starMusicSheetPanel;
     private JList<String> list;
+    private Vector<String> data;
     private List<MusicSheet> starMusicSheetList;
     final JPopupMenu pop;
 
@@ -32,7 +31,12 @@ public class StarMusicSheetPanel extends JPanel {
         return starMusicSheetPanel;
     }
 
-    public StarMusicSheetPanel(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
+    public static StarMusicSheetPanel getInstance(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
+    	starMusicSheetPanel = new StarMusicSheetPanel(musicSheetList, musicPlayer);
+        return starMusicSheetPanel;
+    }
+
+    private StarMusicSheetPanel(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
         starMusicSheetList = musicSheetList;
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
@@ -66,16 +70,26 @@ public class StarMusicSheetPanel extends JPanel {
         titlePanel.add(title);
 		titlePanel.add(btn_add);
         int size = (musicSheetList == null)? 0 : musicSheetList.size();
-        String[] data = null;
         if(size > 0) {
-            String[] columnNames = new String[]{""};
-            data = new String[size];
-            for (int i = 0; i < size; i++) {
-                data[i] = musicSheetList.get(i).getName();
+        	  data = new Vector<String>();
+              for (int i = 0; i < size; i++) {
+                  data.add(musicSheetList.get(i).getName());
             }
         }
         //构建一个JList
         list = new JList<String>();
+        list.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component com = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if(isSelected) {
+                    com.setBackground(list.getSelectionBackground());
+                } else {
+                    com.setBackground(new Color(0,0,0,0));
+                }
+                return com;
+            }
+        });
         list.setFont(font1);
         list.setBackground(new Color(0, 0, 0, 0));
         list.setPreferredSize(new Dimension(170, 150));
