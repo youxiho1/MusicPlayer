@@ -6,7 +6,6 @@ import com.yang.util.DateUtil;
 import com.yang.util.SQLiteDatabase;
 import com.yang.view.MusicPlayer;
 import com.yang.view.center.MusicSheetInformation;
-import com.yang.view.center.MusicSheetInformation;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -14,19 +13,19 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 public class LocalMusicSheetPanel extends JPanel {
-
 	private static final long serialVersionUID = 1L;
 	private static LocalMusicSheetPanel localMusicSheetPanel;
     private JList<String> list;
-    private Vector<String> data; 
     private List<MusicSheet> localMusicSheetList;
+    private Vector<String> data;
+    final JPopupMenu pop;
 
     public static LocalMusicSheetPanel getInstance() {
         if(localMusicSheetPanel == null) {
@@ -35,28 +34,27 @@ public class LocalMusicSheetPanel extends JPanel {
         return localMusicSheetPanel;
     }
 
-    public static LocalMusicSheetPanel getInstance(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) { 
-        localMusicSheetPanel = new LocalMusicSheetPanel(musicSheetList, musicPlayer); 
-        return localMusicSheetPanel; 
-    } 
+    public static LocalMusicSheetPanel getInstance(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
+        localMusicSheetPanel = new LocalMusicSheetPanel(musicSheetList, musicPlayer);
+        return localMusicSheetPanel;
+    }
+
     private LocalMusicSheetPanel(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
         localMusicSheetList = musicSheetList;
-        System.out.println(localMusicSheetList.size()); 
-        final BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        System.out.println(localMusicSheetList.size());
+        BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
-//        setPreferredSize(new Dimension(170, 300));
-        //鼠标右键出现对歌单的删除和编辑
+        //setPreferredSize(new Dimension(250, 300));
         JMenuItem edit = new JMenuItem("编辑");
         JMenuItem del = new JMenuItem("删除");
-        final JPopupMenu pop = new JPopupMenu();
+        pop = new JPopupMenu();
         pop.add(edit);
         pop.add(del);
         JPanel localPanel = new JPanel();
 //      starPanel.setPreferredSize(new Dimension(910,33));
-        localPanel.setBackground(new Color(0, 0, 0, 0));
+        //localPanel.setBackground(new Color(0, 0, 0, 0));
         FlowLayout localLayout = (FlowLayout) localPanel.getLayout();
         localLayout.setAlignment(FlowLayout.LEADING);
-        
         JPanel titlePanel = new JPanel();
         JLabel title = new JLabel("我创建的歌单");
         Font font = new Font("幼圆", Font.PLAIN, 16);//创建1个字体实例
@@ -65,7 +63,6 @@ public class LocalMusicSheetPanel extends JPanel {
         Font font1 = new Font("幼圆", Font.PLAIN, 14);
         Font font2 = new Font("微软雅黑", Font.PLAIN, 14);
         op.setFont(font2);//设置JLabel的字体
-        
         ImageIcon ic_add = new ImageIcon("resources/add.png");
 		JButton btn_add = new JButton(ic_add);
 		btn_add.setOpaque(false);
@@ -73,9 +70,11 @@ public class LocalMusicSheetPanel extends JPanel {
     	btn_add.setFocusPainted(false);
     	btn_add.setBorderPainted(false);
     	btn_add.setBorder(null);
-		btn_add.addActionListener(new ActionListener() { 
-			@Override 
-			public void actionPerformed(ActionEvent e) { 
+		btn_add.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
 				String inputValue = JOptionPane.showInputDialog("请输入歌单的名字"); 
 				if(inputValue == null || inputValue.length() == 0) { 
 					//????????????????? 
@@ -100,62 +99,48 @@ public class LocalMusicSheetPanel extends JPanel {
 					LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(); 
 					localMusicSheetPanel.addMusicSheet(sheet); 
 				} 
-			} 
-		}); 
+			}
+		});
 		titlePanel.add(title);
 		titlePanel.add(btn_add);
-        
         int size = (musicSheetList == null)? 0 : musicSheetList.size();
         if(size > 0) {
-        	data = new Vector<String>();
+            data = new Vector<String>();
             for (int i = 0; i < size; i++) {
-            	data.add(musicSheetList.get(i).getName());
+                data.add(musicSheetList.get(i).getName());
             }
         }
         //构建一个JList
         list = new JList<String>();
         list.setCellRenderer(new DefaultListCellRenderer() {
-            @Override 
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) { 
-                Component com = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); 
-                if(isSelected) { 
-                    com.setBackground(list.getSelectionBackground()); 
-                } else { 
-                    com.setBackground(new Color(0, 0, 0, 0)); 
-                } 
-                return com; 
-            } 
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component com = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if(isSelected) {
+                    com.setBackground(list.getSelectionBackground());
+                } else {
+                    com.setBackground(new Color(0,0,0,0));
+                }
+                return com;
+            }
         });
         list.setFont(font1);
         list.setBackground(new Color(0, 0, 0, 0));
-        list.setSelectionBackground(new Color(0)); 
+        //list.setSelectionBackground(new Color(0));
         list.setPreferredSize(new Dimension(170, 150));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setListData(data);
         list.add(pop);
-        
         list.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(e.getButton() == 1) { 
-                    int index = list.getSelectedIndex();
-                    if(index == -1) { 
-                        JOptionPane.showMessageDialog(null, "您未选中任何歌单", "提示", JOptionPane.INFORMATION_MESSAGE); 
-                    } 
-                    else { 
-                        MusicSheet musicSheet = localMusicSheetList.get(index); 
-                        MusicSheetInformation musicSheetInformation = new MusicSheetInformation(musicSheet); 
-                        musicPlayer.changeCenterPanel(musicSheetInformation); 
-                    } 
-                    revalidate();
-                    repaint();
-            	}
+                
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                  list.setSelectedIndex(list.locationToIndex(e.getPoint()));  //获取鼠标点击的项
-                  showpop(e);
+            	list.setSelectedIndex(list.locationToIndex(e.getPoint()));  //获取鼠标点击的项
+                showpop(e);
             }
 
             @Override
@@ -172,39 +157,61 @@ public class LocalMusicSheetPanel extends JPanel {
             public void mouseExited(MouseEvent e) {
 
             }
-            //弹出菜单
+            
             public void showpop(MouseEvent e){
                 if(e.getButton() == 3 && list.getSelectedIndex() >=0){
-                        Object selected = list.getModel().getElementAt(list.getSelectedIndex());
-                        System.out.println(selected);
-                        pop.show(list, e.getX(), e.getY());
+                    Object selected = list.getModel().getElementAt(list.getSelectedIndex());
+                    System.out.println(selected);
+                    pop.show(list, e.getX(), e.getY());
                 }
             }
         });
-     
-        //删除和编辑对应事件
+        
+        list.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				int index = list.getSelectedIndex();
+                if(index == -1) {
+                    JOptionPane.showMessageDialog(null, "您未选中任何歌单", "提示", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else {
+                    MusicSheet musicSheet = localMusicSheetList.get(index);
+                    MusicSheetInformation musicSheetInformation = new MusicSheetInformation(musicSheet);
+                    musicPlayer.changeCenterPanel(musicSheetInformation);
+                }
+                revalidate();
+                repaint();
+			}
+		});
+
         edit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-
-            }
-        });
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
         del.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int result = JOptionPane.showConfirmDialog(null, op, "提示",JOptionPane.YES_NO_CANCEL_OPTION );
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int result = JOptionPane.showConfirmDialog(null, op, "提示",JOptionPane.YES_NO_CANCEL_OPTION );
                 System.out.println("选择结果:"+result);
-            }
-        });
-
-    
+			}
+		});
         localPanel.add(titlePanel);
         localPanel.add(list);
         this.add(localPanel);
     }
-    public void addMusicSheet(MusicSheet sheet) { 
-        System.out.println(localMusicSheetList.size()); 
-        localMusicSheetList.add(sheet); 
-        data.add(sheet.getName()); 
-        list.setListData(data); 
-    } 
+    
+    public void addMusicSheet(MusicSheet sheet) {
+        System.out.println(localMusicSheetList.size());
+        localMusicSheetList.add(sheet);
+        data.add(sheet.getName());
+        list.setListData(data);
+    }
 }
