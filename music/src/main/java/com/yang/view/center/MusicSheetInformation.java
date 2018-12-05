@@ -199,7 +199,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         table.getTableHeader().setReorderingAllowed(false); 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setSelectionBackground(new Color(0)); 
+        //table.setSelectionBackground(new Color(0));
         table.addMouseListener(new MouseAdapter() { 
             @Override 
             public void mouseClicked(MouseEvent e) { 
