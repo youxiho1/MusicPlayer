@@ -76,5 +76,4 @@ public class MyAdvancedPlayer extends AdvancedPlayer implements Runnable {
             }
         }
     }
-
 }
