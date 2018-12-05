@@ -6,27 +6,16 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import com.yang.model.MusicSheet;
-import com.yang.util.ContentValues;
-import com.yang.util.DateUtil;
-import com.yang.util.Player;
+import com.yang.service.Player;
 import com.yang.util.SQLiteDatabase;
 import com.yang.view.bottom.Operation;
 import com.yang.view.center.MusicSheetInformation;
-import com.yang.view.center.MusicSheetInformation;
 import com.yang.view.west.LocalMusicSheetPanel;
-import com.yang.view.west.StarMusicSheetPanel;
-import org.apache.commons.codec.digest.DigestUtils;
 
 public class MusicPlayer extends JFrame {
 	private JPanel centerPanel;
@@ -51,30 +40,30 @@ public class MusicPlayer extends JFrame {
 	public MusicPlayer() {
 		centerPanel = new JPanel();
 		SQLiteDatabase db = new SQLiteDatabase("music.db");
-//        final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
-//                + "id integer primary key autoincrement, "
-//                + "uuid text, "
-//                + "name text, "
-//                + "creatorId text, "
-//                + "creator text, "
-//                + "dateCreated text, "
-//                + "picture text, "
-//                + "flag integer)";
-//        final String CREATE_MUSIC = "create table if not exists Music ("
-//                + "id integer primary key autoincrement, "
-//                + "md5value text, "
-//                + "name text, "
-//                + "singer text, "
-//                + "url text, "
-//                + "count integer, "
-//                + "isLike integer)";
-//        final String CREATE_MUSICSHEET_MUSIC = "create table if not exists MusicSheet_Music ("
-//                + "rowId integer primary key autoincrement, "
-//                + "musicsheetId integer, "
-//                + "id integer)";
-//        db.executeSQL(CREATE_MUSICSHEET);
-//        db.executeSQL(CREATE_MUSIC);
-//        db.executeSQL(CREATE_MUSICSHEET_MUSIC);
+        final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
+                + "id integer primary key autoincrement, "
+                + "uuid text, "
+                + "name text, "
+                + "creatorId text, "
+                + "creator text, "
+                + "dateCreated text, "
+                + "picture text, "
+                + "flag integer)";
+        final String CREATE_MUSIC = "create table if not exists Music ("
+                + "id integer primary key autoincrement, "
+                + "md5value text, "
+                + "name text, "
+                + "singer text, "
+                + "url text, "
+                + "count integer, "
+                + "isLike integer)";
+        final String CREATE_MUSICSHEET_MUSIC = "create table if not exists MusicSheet_Music ("
+                + "rowId integer primary key autoincrement, "
+                + "musicsheetId integer, "
+                + "id integer)";
+        db.executeSQL(CREATE_MUSICSHEET);
+        db.executeSQL(CREATE_MUSIC);
+        db.executeSQL(CREATE_MUSICSHEET_MUSIC);
 
         //测试数据，记得删除
 //        ContentValues values = new ContentValues();
