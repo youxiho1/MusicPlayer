@@ -13,7 +13,6 @@ public class Music {
     public Music() {
     }
 
-
     public Music(int id, String md5value, String name, String singer, String url) {
         this.id = id;
         this.md5value = md5value;

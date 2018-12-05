@@ -6,21 +6,22 @@ import com.yang.util.AddFile;
 import com.yang.util.ContentValues;
 import com.yang.util.Player;
 import com.yang.util.SQLiteDatabase;
-import com.yang.view.bottom.Operation;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import java.awt.*;
+import org.apache.commons.codec.digest.DigestUtils;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,7 +29,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,15 +39,14 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
 	private static MusicSheetInformation musicSheetInformation;
     private MusicSheet musicSheet;
     private List<Music> preMusic;
-    private AddFile addFile;
-    private JTable table;
+    private AddFile addFile; 
+    private JTable table; 
     private Font font = new Font("幼圆", Font.PLAIN, 16);//创建1个字体实例
     private Font font1 = new Font("幼圆", Font.PLAIN, 18);//创建1个字体实例
 
     public static MusicSheetInformation getInstance() {
         return musicSheetInformation;
     }
-
     public void setTableHeaderColor(JTable table, int columnIndex, Color c) {
         TableColumn column = table.getTableHeader().getColumnModel()
                 .getColumn(columnIndex);
@@ -64,10 +63,10 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                 setPreferredSize(new Dimension(910,37));
                 ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
                         .setHorizontalAlignment(DefaultTableCellRenderer.CENTER);// 列头内容居中
-                Component com = super.getTableCellRendererComponent(table, value,
+
+                Component com = super.getTableCellRendererComponent(table, value, 
                         isSelected, hasFocus, row, column);
-                //com.
-                return com;
+                return com; 
             }
         };
         cellRenderer.setBackground(c);
@@ -78,7 +77,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
     	setBackground(Color.WHITE);
         this.musicSheet = nmusicSheet;
         JPanel northPanel = new JPanel();
-        northPanel.setPreferredSize(new Dimension(910,33));
+//        northPanel.setPreferredSize(new Dimension(910,33));
         northPanel.setBackground(new Color(244,244,244,244));
         GridLayout northGrid = new GridLayout();
         northGrid.setHgap(10);
@@ -97,9 +96,8 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         JButton btn_star = new JButton("收藏");
         JButton btn_download = new JButton("下载");
         JButton btn_revise = new JButton("编辑");
-        JButton btn_add = new JButton("添加歌曲(文件)");
+        JButton btn_add = new JButton("添加歌曲(文件)"); 
         btn_add.addActionListener(this);
-        //JButton btn_addD = new JButton("添加歌曲(文件夹)");
         label_name.setFont(font1);
 //        label_name.setIcon(new ImageIcon("resources\\main.png"));
         label_creator.setFont(font1);
@@ -163,33 +161,33 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
 			 */
 			private static final long serialVersionUID = 1L;
 			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-			    Component component = super.prepareRenderer(renderer, row, column);
-                Object value = getValueAt(row, column);
-                boolean isSelected = false;
-                boolean hasFocus = false;
-                if (!isPaintingForPrint()) {
-                    isSelected = isCellSelected(row, column);
-                    boolean rowIsLead =
-                            (selectionModel.getLeadSelectionIndex() == row);
-                    boolean colIsLead =
+				Component component = super.prepareRenderer(renderer, row, column); 
+                Object value = getValueAt(row, column); 
+                boolean isSelected = false; 
+                boolean hasFocus = false; 
+                if (!isPaintingForPrint()) { 
+                    isSelected = isCellSelected(row, column); 
+                    boolean rowIsLead = 
+                            (selectionModel.getLeadSelectionIndex() == row); 
+                    boolean colIsLead = 
                             (columnModel.getSelectionModel().getLeadSelectionIndex() == column);
-                    hasFocus = (rowIsLead && colIsLead) && isFocusOwner();
-                }
-                if(!hasFocus && !isSelected) {
-                    if (row % 2 == 0) {  //将row改为column，则分列以不同颜色显示
-                        component.setBackground(new Color(244,244,244,244));
-                    }
-                    if (row % 2 == 1) {
-                        component.setBackground(Color.WHITE);
-                    }
-                }
-                return component;
+                    hasFocus = (rowIsLead && colIsLead) && isFocusOwner(); 
+                } 
+                if(!hasFocus && !isSelected) { 
+                    if (row % 2 == 0) {  //将row改为column，则分列以不同颜色显示 
+                        component.setBackground(new Color(244,244,244,244)); 
+                    } 
+                    if (row % 2 == 1) { 
+                        component.setBackground(Color.WHITE); 
+                    } 
+                } 
+                return component; 
 			}
-
 			@Override
-            public boolean isCellEditable(int row, int column) {
-			    return false;
-            }
+          public boolean isCellEditable(int row, int column) {
+              return false;
+          }
+
         };
         
         table.setFont(font);
@@ -198,24 +196,23 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         table.setRowHeight(30);
         table.setShowGrid(false);
         table.getTableHeader().setBorder(new EmptyBorder(0, 0, 0, 0));
-        table.getTableHeader().setReorderingAllowed(false);
+        table.getTableHeader().setReorderingAllowed(false); 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setSelectionBackground(new Color(0));
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2) {
-                    int row = table.getSelectedRow();
-                    Music music = preMusic.get(row);
-                    Player player = Player.getInstance();
-                    player.changeNowList(preMusic);
-                    player.setNowMusic(music);
-                    player.play();
-                }
-            }
-        });
-
+        //table.setSelectionBackground(new Color(0));
+        table.addMouseListener(new MouseAdapter() { 
+            @Override 
+            public void mouseClicked(MouseEvent e) { 
+                if(e.getClickCount() == 2) { 
+                    int row = table.getSelectedRow(); 
+                    Music music = preMusic.get(row); 
+                    Player player = Player.getInstance(); 
+                    player.changeNowList(preMusic); 
+                    player.setNowMusic(music); 
+                    player.play(); 
+                } 
+            } 
+        }); 
         //封面图？？？
         southPanel.add(table.getTableHeader());
         southPanel.add(table);
@@ -231,7 +228,6 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
     protected Color colorForRow(int row) {
         return (row % 2 == 0) ? Color.RED : Color.PINK;
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if(addFile == null)

@@ -137,8 +137,10 @@ public class Operation extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player player = Player.getInstance();
                 player.playPrev();
-//                Music music = player.getNowMusic();
-//                changeMusicInformation(music);
+                Music music = player.getNowMusic();
+                if(player.getNowMusic() == null)
+                	return;
+                changeMusicInformation(music);
             }
         });
 
@@ -146,7 +148,12 @@ public class Operation extends JPanel {
         btn_play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+            	 Player player = Player.getInstance();
+            	 if(player.isPaused())
+            	 player.play();
+            	 else player.pause();
+//                 if(player.getNowMusic() == null)
+//                 	return;
             }
         });
 
@@ -156,8 +163,10 @@ public class Operation extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player player = Player.getInstance();
                 player.playNext();
-//                Music music = player.getNowMusic();
-//                changeMusicInformation(music);
+                Music music = player.getNowMusic();
+                if(player.getNowMusic() == null)
+                	return;
+                changeMusicInformation(music);
             }
         });
 
@@ -222,7 +231,7 @@ public class Operation extends JPanel {
     }
 
     public void changeMusicInformation(Music music) {
-        System.out.println(music.getName());
+    	System.out.println(music.getName());
         label_name.setText(music.getName());
         label_singer.setText(music.getSinger());
         if(music.getIslike() == 0) {
@@ -245,7 +254,6 @@ public class Operation extends JPanel {
         	btn_like.setIcon(ic_unlike);
         }
     }
-
     public void setButtonStyle(JButton btn) {
     	btn.setOpaque(false);
     	btn.setContentAreaFilled(false);

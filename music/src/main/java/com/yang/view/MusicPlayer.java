@@ -51,123 +51,103 @@ public class MusicPlayer extends JFrame {
 	public MusicPlayer() {
 		centerPanel = new JPanel();
 		SQLiteDatabase db = new SQLiteDatabase("music.db");
-        final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
-                + "id integer primary key autoincrement, "
-                + "uuid text, "
-                + "name text, "
-                + "creatorId text, "
-                + "creator text, "
-                + "dateCreated text, "
-                + "picture text, "
-                + "flag integer)";
-        final String CREATE_MUSIC = "create table if not exists Music ("
-                + "id integer primary key autoincrement, "
-                + "md5value text, "
-                + "name text, "
-                + "singer text, "
-                + "url text, "
-                + "count integer, "
-                + "isLike integer)";
-        final String CREATE_MUSICSHEET_MUSIC = "create table if not exists MusicSheet_Music ("
-                + "rowId integer primary key autoincrement, "
-                + "musicsheetId integer, "
-                + "id integer)";
-        db.executeSQL(CREATE_MUSICSHEET);
-        db.executeSQL(CREATE_MUSIC);
-        db.executeSQL(CREATE_MUSICSHEET_MUSIC);
-/*
+//        final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
+//                + "id integer primary key autoincrement, "
+//                + "uuid text, "
+//                + "name text, "
+//                + "creatorId text, "
+//                + "creator text, "
+//                + "dateCreated text, "
+//                + "picture text, "
+//                + "flag integer)";
+//        final String CREATE_MUSIC = "create table if not exists Music ("
+//                + "id integer primary key autoincrement, "
+//                + "md5value text, "
+//                + "name text, "
+//                + "singer text, "
+//                + "url text, "
+//                + "count integer, "
+//                + "isLike integer)";
+//        final String CREATE_MUSICSHEET_MUSIC = "create table if not exists MusicSheet_Music ("
+//                + "rowId integer primary key autoincrement, "
+//                + "musicsheetId integer, "
+//                + "id integer)";
+//        db.executeSQL(CREATE_MUSICSHEET);
+//        db.executeSQL(CREATE_MUSIC);
+//        db.executeSQL(CREATE_MUSICSHEET_MUSIC);
+
         //测试数据，记得删除
-        ContentValues values = new ContentValues();
-        values.put("name", "测试歌单1");
-        values.put("creator", "lly1");
-        values.put("dateCreated", "2018/1/1");
-        values.put("flag", 1);
-        values.put("creatorId", "17020031025");
-        db.insert("MusicSheet", values);
-        values.clear();
-        values.put("name", "测试歌单2");
-        values.put("creator", "李林宇");
-        values.put("dateCreated", "2018/1/2");
-        values.put("flag", 1);
-        values.put("creatorId", "17020031119");
-        db.insert("MusicSheet", values);
-        values.clear();
-        values.put("name", "测试歌单3");
-        values.put("creator", "TESTER");
-        values.put("dateCreated", "2018/1/30");
-        values.put("flag", 2);
-        values.put("creatorId", "00000");
-        db.insert("MusicSheet", values);
-        values.clear();
-        values.put("name", "测试歌单4");
-        values.put("creator", "TESTER2");
-        values.put("dateCreated", "2018/1/30");
-        values.put("flag", 1);
-        values.put("creatorId", "00100");
-        db.insert("MusicSheet", values);
-        values.clear();
-        values.put("name", "测试歌单5");
-        values.put("creator", "TESTERY");
-        values.put("dateCreated", "2018/1/30");
-        values.put("flag", 2);
-        values.put("creatorId", "00100");
-        db.insert("MusicSheet", values);
-        values.clear();
+//        ContentValues values = new ContentValues();
+//        values.put("name", "测试歌单7");
+//        values.put("creator", "yyy");
+//        values.put("dateCreated", "2018/12/1");
+//        values.put("flag", 1);
+//        values.put("creatorId", "17020031119");
+//        db.insert("MusicSheet", values);
+//        values.clear();
+//        values.put("name", "测试歌单2");
+//        values.put("creator", "李林宇");
+//        values.put("dateCreated", "2018/1/2");
+//        values.put("flag", 1);
+//        values.put("creatorId", "17020031119");
+//        db.insert("MusicSheet", values);
+//        values.clear();
+//        values.put("name", "测试歌单3");
+//        values.put("creator", "TESTER");
+//        values.put("dateCreated", "2018/1/30");
+//        values.put("flag", 2);
+//        values.put("creatorId", "00000");
+//        db.insert("MusicSheet", values);
+//        values.clear();
+//        values.put("name", "测试歌单4");
+//        values.put("creator", "TESTER2");
+//        values.put("dateCreated", "2018/1/30");
+//        values.put("flag", 1);
+//        values.put("creatorId", "00100");
+//        db.insert("MusicSheet", values);
+//        values.clear();
+//        values.put("name", "测试歌单5");
+//        values.put("creator", "TESTERY");
+//        values.put("dateCreated", "2018/1/30");
+//        values.put("flag", 2);
+//        values.put("creatorId", "00100");
+//        db.insert("MusicSheet", values);
+//        values.clear();
 
-        values.put("url", "/home/riddleli/Kalafina - to the beginning.mp3");
-        values.put("name", "to the beginning");
-        values.put("singer", "Kalafina");
-        try {
-            values.put("md5value", DigestUtils.md5Hex(new FileInputStream("/home/riddleli/Kalafina - to the beginning.mp3")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        db.insert("Music", values);
-        values.clear();
-        values.put("url", "/home/riddleli//home/riddleli/春奈るな - 空は高く風は歌う.mp3");
-        values.put("name", "空は高く風は歌う");
-        values.put("singer", "春奈るな");
-        try {
-            values.put("md5value", DigestUtils.md5Hex(new FileInputStream("/home/riddleli/春奈るな - 空は高く風は歌う.mp3")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        db.insert("Music", values);
-        values.clear();
-        values.put("url", "/home/riddleli/杉森雅和 - 尋問 ～アレグロ 2001.mp3");
-        values.put("name", "尋問 ～アレグロ 2001");
-        values.put("singer", "杉森雅和");
-        try {
-            values.put("md5value", DigestUtils.md5Hex(new FileInputStream("/home/riddleli/春奈るな - 空は高く風は歌う.mp3")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        db.insert("Music", values);
-        values.clear();
-
-        values.put("musicsheetId", 1);
-        values.put("id", 1);
-        db.insert("MusicSheet_Music", values);
-        values.clear();
-        values.put("musicsheetId", 1);
-        values.put("id", 2);
-        db.insert("MusicSheet_Music", values);
-        values.clear();
-        values.put("musicsheetId", 1);
-        values.put("id", 3);
-        db.insert("MusicSheet_Music", values);
-        values.clear();
-        values.put("musicsheetId", 2);
-        values.put("id", 2);
-        db.insert("MusicSheet_Music", values);
-        values.clear();
-        values.put("musicsheetId", 2);
-        values.put("id", 3);
-        db.insert("MusicSheet_Music", values);
-        values.clear();
-        values.put("musicsheetId", 5);
-        values.put("id", 3);
-        db.insert("MusicSheet_Music", values);*/
+//        values.put("url", "C:\\Users\\yang\\Desktop\\demo\\王源 - 一样 [mqms2].mp3");
+//        values.put("name", "一样 [mqms2]");
+//        values.put("singer", "王源");
+//        try {
+//            values.put("md5value", DigestUtils.md5Hex(new FileInputStream("C:\\Users\\yang\\Desktop\\demo\\王源 - 一样 [mqms2].mp3")));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        db.insert("Music", values);
+//        values.clear();
+//
+//        values.put("musicsheetId", 7);
+//        values.put("id", 4);
+//        db.insert("MusicSheet_Music", values);
+//        values.clear();
+//        values.put("musicsheetId", 1);
+//        values.put("id", 2);
+//        db.insert("MusicSheet_Music", values);
+//        values.clear();
+//        values.put("musicsheetId", 1);
+//        values.put("id", 3);
+//        db.insert("MusicSheet_Music", values);
+//        values.clear();
+//        values.put("musicsheetId", 2);
+//        values.put("id", 2);
+//        db.insert("MusicSheet_Music", values);
+//        values.clear();
+//        values.put("musicsheetId", 2);
+//        values.put("id", 3);
+//        db.insert("MusicSheet_Music", values);
+//        values.clear();
+//        values.put("musicsheetId", 5);
+//        values.put("id", 3);
+//        db.insert("MusicSheet_Music", values);
 
 
         //setTitle("音乐播放器");
@@ -184,38 +164,8 @@ public class MusicPlayer extends JFrame {
 		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
 		LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(localMusicSheetList, this);
 		StarMusicSheetPanel starMusicSheetPanel = new StarMusicSheetPanel(starMusicSheetList, this);
-
-		JButton btn_add = new JButton("创建新歌单");
-		btn_add.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String inputValue = JOptionPane.showInputDialog("请输入歌单的名字");
-				if(inputValue == null || inputValue.length() == 0) {
-					//?????????????????
-				}
-				else {
-					SQLiteDatabase db = new SQLiteDatabase("music.db");
-					ContentValues values = new ContentValues();
-					values.put("name", inputValue);
-					values.put("creatorId", "17020031119");
-					values.put("creator", "Yi Xiaoyang");
-					String nowTime = DateUtil.getNowDateTime("yyyy-MM-dd HH:mm:ss");
-					values.put("dateCreated", nowTime);
-					values.put("flag", 1);
-					db.insert("musicsheet", values);
-					MusicSheet sheet = new MusicSheet();
-					sheet.setName(inputValue);
-					sheet.setCreatorid("17020031119");
-					sheet.setCreator("Yi Xiaoyang");
-					sheet.setDatecreated(nowTime);
-					sheet.setFlag(1);
-					localMusicSheetList.add(sheet);
-					LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance();
-					localMusicSheetPanel.addMusicSheet(sheet);
-				}
-			}
-		});
-		westPanel.add(btn_add);
+		
+		
 		westPanel.add(localMusicSheetPanel);
 		westPanel.add(starMusicSheetPanel);
 		//westPanel.add(new JScrollBar());
@@ -240,30 +190,14 @@ public class MusicPlayer extends JFrame {
         label.setText("音乐播放器");
         northPanel.add(label);
         
-//    	ImageIcon icon = new ImageIcon("resources\\min.png");
-//    	JButton min = new JButton(icon);
-//        min.setOpaque(false);//设置控件是否透明，true为不透明，false为透明
-//        min.setContentAreaFilled(false);//设置图片填满按钮所在的区域
-//        min.setFocusPainted(false);//设置这个按钮是不是获得焦点
-//        min.setBorderPainted(false);//设置是否绘制边框
-//        min.setBorder(null);//设置边框
-//        northPanel.add(min);
-//
-//        ImageIcon icon2 = new ImageIcon("resources\\close.png");
-//    	JButton close = new JButton(icon2);
-//    	close.setOpaque(false);
-//    	close.setContentAreaFilled(false);
-//    	close.setFocusPainted(false);
-//    	close.setBorderPainted(false);
-//    	close.setBorder(null);
-//        northPanel.add(close);
+        Player player = Player.getInstance(operation); 
 
 		//Finally
 		add(BorderLayout.WEST, westPanel);
 		add(BorderLayout.SOUTH, operation);
 		add(BorderLayout.CENTER, centerPanel);
 		add(BorderLayout.NORTH, northPanel);
-		Player player = Player.getInstance(operation);
+		
 	}
 
 	public void changeCenterPanel(MusicSheetInformation musicSheetInformation) {
