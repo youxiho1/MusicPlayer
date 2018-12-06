@@ -23,6 +23,8 @@ public class Operation extends JPanel {
 	private ImageIcon ic_single = new ImageIcon("resources/single.png");
     private ImageIcon ic_order = new ImageIcon("resources/order.png");
     private ImageIcon ic_random = new ImageIcon("resources/random.png");
+    private ImageIcon ic_play = new ImageIcon("resources/play1.png");
+    private ImageIcon ic_stop = new ImageIcon("resources/stop1.png");
     private Font font = new Font("幼圆", Font.PLAIN, 13);
 
     public Operation() {
@@ -54,15 +56,14 @@ public class Operation extends JPanel {
     	JButton btn_prev = new JButton(ic_prev);
     	setButtonStyle(btn_prev);
         
-        ImageIcon ic_play = new ImageIcon("resources/play1.png");
-    	JButton btn_play = new JButton(ic_play);
+    	final JButton btn_play = new JButton(ic_play);
     	setButtonStyle(btn_play);
         
         ImageIcon icon3 = new ImageIcon("resources/next1.png");
     	JButton btn_next = new JButton(icon3);
     	setButtonStyle(btn_next);
     
-    	btn_like = new JButton(ic_like);
+    	btn_like = new JButton(ic_unlike);
     	setButtonStyle(btn_like);
         //btn_like初始化???????????
 
@@ -181,6 +182,15 @@ public class Operation extends JPanel {
 //            	 else player.pause();
 //                 if(player.getNowMusic() == null)
 //                 	return;
+            	boolean puase = false;
+            	if(puase) {
+            		btn_play.setIcon(ic_play);
+            		puase = false;
+            	}
+            	else {
+            		btn_play.setIcon(ic_stop);
+            		puase = true;
+            	}
             }
         });
 

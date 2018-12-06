@@ -25,6 +25,7 @@ public class LocalMusicSheetPanel extends JPanel {
     private JList<String> list;
     private List<MusicSheet> localMusicSheetList;
     private Vector<String> data;
+    private ImageIcon img;
     final JPopupMenu pop;
 
     public static LocalMusicSheetPanel getInstance() {
@@ -51,6 +52,11 @@ public class LocalMusicSheetPanel extends JPanel {
         pop.add(edit);
         pop.add(del);
         JPanel localPanel = new JPanel();
+        
+        img=new ImageIcon("resources/default.jpg");
+		int height = 120; 
+		int width = img.getIconWidth()*120/img.getIconHeight();//按比例，将高度缩减
+		img.setImage(img.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
 //      starPanel.setPreferredSize(new Dimension(910,33));
         //localPanel.setBackground(new Color(0, 0, 0, 0));
         FlowLayout localLayout = (FlowLayout) localPanel.getLayout();
@@ -85,11 +91,11 @@ public class LocalMusicSheetPanel extends JPanel {
 					values.put("name", inputValue); 
 					values.put("creatorId", "17020031119"); 
 					values.put("creator", "Yi Xiaoyang"); 
-					String nowTime = DateUtil.getNowDateTime("yyyy-MM-dd HH:mm:ss"); 
+					String nowTime = DateUtil.getNowDateTime("yyyy/MM/dd"); 
 					values.put("dateCreated", nowTime); 
 					values.put("flag", 1); 
 					db.insert("musicsheet", values); 
-					MusicSheet sheet = new MusicSheet(); 
+					MusicSheet sheet = new MusicSheet();
 					sheet.setName(inputValue); 
 					sheet.setCreatorid("17020031119"); 
 					sheet.setCreator("Yi Xiaoyang"); 
@@ -172,14 +178,14 @@ public class LocalMusicSheetPanel extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
 				int index = list.getSelectedIndex();
-                if(index == -1) {
-                    JOptionPane.showMessageDialog(null, "您未选中任何歌单", "提示", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else {
+//                if(index == -1) {
+//                    JOptionPane.showMessageDialog(null, "您未选中任何歌单", "提示", JOptionPane.INFORMATION_MESSAGE);
+//                }
+//                else {
                     MusicSheet musicSheet = localMusicSheetList.get(index);
                     MusicSheetInformation musicSheetInformation = new MusicSheetInformation(musicSheet);
                     musicPlayer.changeCenterPanel(musicSheetInformation);
-                }
+//                }
                 revalidate();
                 repaint();
 			}
@@ -216,6 +222,14 @@ public class LocalMusicSheetPanel extends JPanel {
 				// TODO Auto-generated method stub
 				int result = JOptionPane.showConfirmDialog(null, op, "提示",JOptionPane.YES_NO_CANCEL_OPTION );
                 System.out.println("选择结果:"+result);
+                int index = list.getSelectedIndex();
+				MusicSheet musicSheet = localMusicSheetList.get(index);
+				int id = musicSheet.getId();
+				SQLiteDatabase db = new SQLiteDatabase("music.db");
+				ContentValues values = new ContentValues(); 
+				db.delete("MusicSheet", "id = ?", new String [] {String.valueOf(id)}); 
+				LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(); 
+				localMusicSheetPanel.delMusicSheet(musicSheet); 
 			}
 		});
         localPanel.add(titlePanel);
@@ -234,6 +248,14 @@ public class LocalMusicSheetPanel extends JPanel {
         System.out.println(localMusicSheetList.size());
         localMusicSheetList.set(index, sheet);
         data.set(index, sheet.getName());
+        list.setListData(data);
+    }
+    public void delMusicSheet(MusicSheet sheet) {
+    	int index = list.getSelectedIndex();
+        System.out.println(localMusicSheetList.size());
+        localMusicSheetList.set(index, sheet);
+//        data.set(index, sheet.getName());
+        data.remove(index);
         list.setListData(data);
     }
 }
