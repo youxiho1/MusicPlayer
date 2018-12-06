@@ -23,19 +23,26 @@ public class Operation extends JPanel {
 	private ImageIcon ic_single = new ImageIcon("resources/single.png");
     private ImageIcon ic_order = new ImageIcon("resources/order.png");
     private ImageIcon ic_random = new ImageIcon("resources/random.png");
+    private Font font = new Font("幼圆", Font.PLAIN, 13);
 
     public Operation() {
         setLayout(new FlowLayout());
         setBackground(new Color(244,244,244,244));
         setBorder(BorderFactory.createLineBorder(new Color(219,219,219)));//设置边框
+        
+        JPanel westPanel = new JPanel();
+        westPanel.setPreferredSize(new Dimension(230,35));
+        westPanel.setBackground(new Color(244,244,244,244));
         label_name = new JLabel();
         label_name.setText("");
-        label_name.setPreferredSize(new Dimension(50,50));
+        label_name.setFont(font);
+//        label_name.setPreferredSize(new Dimension(50,50));
 
         label_singer = new JLabel();
         label_singer.setText("");
-        label_singer.setPreferredSize(new Dimension(50,50));
-
+//        label_singer.setPreferredSize(new Dimension(50,50));
+        westPanel.add(label_name);
+//        westPanel.add(label_singer);
         JPanel eastPanel = new JPanel();
         eastPanel.setBackground(new Color(244,244,244,244));
         GridLayout eastGrid = new GridLayout();
@@ -60,7 +67,7 @@ public class Operation extends JPanel {
         //btn_like初始化???????????
 
         slider = new JSlider(0, 100, 0);
-        slider.setPreferredSize(new Dimension(700, 60));
+        slider.setPreferredSize(new Dimension(600, 60));
         slider.setOpaque(false);
         slider.setUI(new  javax.swing.plaf.metal.MetalSliderUI(){
             @Override
@@ -257,8 +264,9 @@ public class Operation extends JPanel {
 
         eastPanel.add(btn_mode);
         eastPanel.add(btn_like);
-        this.add(label_name);
-        this.add(label_singer);
+        this.add(westPanel);
+//        this.add(label_name);
+//        this.add(label_singer);
         this.add(btn_prev);
         this.add(btn_play);
         this.add(btn_next);
