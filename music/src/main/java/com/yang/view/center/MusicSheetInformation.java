@@ -271,7 +271,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(addFile == null)
+    	if(addFile == null)
             addFile = new AddFile(this);
         addFile.open();
         File[] files = addFile.getFiles();

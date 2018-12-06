@@ -222,7 +222,7 @@ public class Operation extends JPanel {
                 }
                 thread.start();
                 slider.setMinimum(0);
-                int musicTime = player.getMusicTime();
+                final int musicTime = player.getMusicTime();
                 System.out.println("yyyyyyyy"+musicTime);
                 slider.setMaximum(musicTime / 1000);
                 javazoom.jl.player.Player myPlayer = player.getMyPlayer();
