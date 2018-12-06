@@ -2,9 +2,10 @@ package com.yang.view.center;
 
 import com.yang.model.Music;
 import com.yang.model.MusicSheet;
+import com.yang.service.ThreadList;
 import com.yang.util.AddFile;
 import com.yang.util.ContentValues;
-import com.yang.util.Player;
+import com.yang.service.Player;
 import com.yang.util.SQLiteDatabase;
 
 import javax.swing.*;
@@ -19,7 +20,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -29,9 +29,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MusicSheetInformation extends JPanel implements ActionListener {
 
@@ -47,6 +46,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
     public static MusicSheetInformation getInstance() {
         return musicSheetInformation;
     }
+
     public void setTableHeaderColor(JTable table, int columnIndex, Color c) {
         TableColumn column = table.getTableHeader().getColumnModel()
                 .getColumn(columnIndex);
@@ -95,8 +95,8 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         JButton btn_playAll = new JButton("播放全部");
         JButton btn_star = new JButton("收藏");
         JButton btn_download = new JButton("下载");
-        JButton btn_revise = new JButton("删除");
-        JButton btn_add = new JButton("添加"); 
+        JButton btn_revise = new JButton("编辑");
+        JButton btn_add = new JButton("添加歌曲(文件)"); 
         btn_add.addActionListener(this);
         label_name.setFont(font1);
 //        label_name.setIcon(new ImageIcon("resources\\main.png"));
@@ -205,14 +205,35 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
             public void mouseClicked(MouseEvent e) { 
                 if(e.getClickCount() == 2) { 
                     int row = table.getSelectedRow(); 
-                    Music music = preMusic.get(row); 
-                    Player player = Player.getInstance(); 
-                    player.changeNowList(preMusic); 
-                    player.setNowMusic(music); 
-                    player.play(); 
+                    Music music = preMusic.get(row);
+                    final Player player = Player.getInstance();
+                    System.out.println("preMusic:");
+                    for (int i = 0; i < preMusic.size(); i++) {
+                        System.out.println(preMusic.get(i).getName());
+                    }
+                    player.changeNowList(preMusic);
+                    player.changePlayList();
+                    player.setNowMusic(music);
+                    Thread thread = new Thread() {
+                        public void run() {
+                            player.play();
+                        }
+                    };
+                    ArrayList<Thread> threadList = ThreadList.getList();
+                    if(threadList.size() == 0) {
+                        ThreadList.add(thread);
+                    } else {
+                        for (Thread thread1 : threadList) {
+                            if (thread1.isAlive()) {
+                                thread1.stop();
+                            }
+                        }
+                        threadList.add(thread);
+                    }
+                    thread.start();
                 } 
-            } 
-        }); 
+            }
+        });
         //封面图？？？
         southPanel.add(table.getTableHeader());
         southPanel.add(table);

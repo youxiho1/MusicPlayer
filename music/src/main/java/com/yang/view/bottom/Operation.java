@@ -1,14 +1,16 @@
 package com.yang.view.bottom;
 
 import com.yang.model.Music;
+import com.yang.service.ThreadList;
 import com.yang.util.ContentValues;
-import com.yang.util.Player;
+import com.yang.service.Player;
 import com.yang.util.SQLiteDatabase;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Operation extends JPanel {
@@ -28,9 +30,11 @@ public class Operation extends JPanel {
         setBorder(BorderFactory.createLineBorder(new Color(219,219,219)));//设置边框
         label_name = new JLabel();
         label_name.setText("");
+        label_name.setPreferredSize(new Dimension(50,50));
 
         label_singer = new JLabel();
         label_singer.setText("");
+        label_singer.setPreferredSize(new Dimension(50,50));
 
         JPanel eastPanel = new JPanel();
         eastPanel.setBackground(new Color(244,244,244,244));
@@ -135,11 +139,27 @@ public class Operation extends JPanel {
         btn_prev.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Player player = Player.getInstance();
-                player.playPrev();
+                final Player player = Player.getInstance();
+                Thread thread = new Thread() {
+                    public void run() {
+                        player.playPrev();
+                    }
+                };
+                ArrayList<Thread> threadList = ThreadList.getList();
+                if(threadList.size() == 0) {
+                    ThreadList.add(thread);
+                } else {
+                    for (Thread thread1 : threadList) {
+                        if (thread1.isAlive()) {
+                            thread1.stop();
+                        }
+                    }
+                    threadList.add(thread);
+                }
+                thread.start();
                 Music music = player.getNowMusic();
                 if(player.getNowMusic() == null)
-                	return;
+                    return;
                 changeMusicInformation(music);
             }
         });
@@ -148,10 +168,10 @@ public class Operation extends JPanel {
         btn_play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	 Player player = Player.getInstance();
-            	 if(player.isPaused())
-            	 player.play();
-            	 else player.pause();
+//            	 Player player = Player.getInstance();
+//            	 if(player.isPaused())
+//            	 player.play();
+//            	 else player.pause();
 //                 if(player.getNowMusic() == null)
 //                 	return;
             }
@@ -161,8 +181,24 @@ public class Operation extends JPanel {
         btn_next.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Player player = Player.getInstance();
-                player.playNext();
+                final Player player = Player.getInstance();
+                Thread thread = new Thread() {
+                    public void run() {
+                        player.playNext();
+                    }
+                };
+                ArrayList<Thread> threadList = ThreadList.getList();
+                if(threadList.size() == 0) {
+                    ThreadList.add(thread);
+                } else {
+                    for (Thread thread1 : threadList) {
+                        if (thread1.isAlive()) {
+                            thread1.stop();
+                        }
+                    }
+                    threadList.add(thread);
+                }
+                thread.start();
                 Music music = player.getNowMusic();
                 if(player.getNowMusic() == null)
                 	return;
