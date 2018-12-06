@@ -95,8 +95,8 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         JButton btn_playAll = new JButton("播放全部");
         JButton btn_star = new JButton("收藏");
         JButton btn_download = new JButton("下载");
-        JButton btn_revise = new JButton("编辑");
-        JButton btn_add = new JButton("添加歌曲(文件)"); 
+        JButton btn_revise = new JButton("删除");
+        JButton btn_add = new JButton("添加"); 
         btn_add.addActionListener(this);
         label_name.setFont(font1);
 //        label_name.setIcon(new ImageIcon("resources\\main.png"));
