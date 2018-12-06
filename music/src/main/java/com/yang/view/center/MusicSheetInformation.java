@@ -20,8 +20,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -39,6 +41,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
     private MusicSheet musicSheet;
     private List<Music> preMusic;
     private JTable table; 
+    private ImageIcon img;
     private AddFile addFile; 
     private Font font = new Font("幼圆", Font.PLAIN, 16);//创建1个字体实例
     private Font font1 = new Font("幼圆", Font.PLAIN, 18);//创建1个字体实例
@@ -83,43 +86,59 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         northGrid.setHgap(10);
         northPanel.setLayout(northGrid);
         
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(244,244,244,244));
+        FlowLayout layout = (FlowLayout) panel.getLayout();
+        layout.setAlignment(FlowLayout.LEADING);
+//        BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+//		panel.setLayout(layout);
+        
         JPanel southPanel = new JPanel();
         southPanel.setPreferredSize(new Dimension(910,440));
         southPanel.setBackground(Color.white);
         BoxLayout southLayout = new BoxLayout(southPanel, BoxLayout.Y_AXIS);
 		southPanel.setLayout(southLayout);
         
+		img=new ImageIcon("resources/default.jpg");
+//		ImageIO.read(new FileInputStream(fnSrc) );//取源图
+		int height = 120; 
+		int width = img.getIconWidth()*120/img.getIconHeight();//按比例，将高度缩减
+		img.setImage(img.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+		JLabel label_pic = new JLabel("");
+		label_pic.setIcon(img);
+//		label_pic.setSize(new Dimension(80, 80));
         JLabel label_name = new JLabel(musicSheet.getName());
         JLabel label_creator = new JLabel(musicSheet.getCreator());
         JLabel label_createDate = new JLabel(musicSheet.getDatecreated());
         JButton btn_playAll = new JButton("播放全部");
-        JButton btn_star = new JButton("收藏");
+        JButton btn_del = new JButton("删除");
         JButton btn_download = new JButton("下载");
         JButton btn_revise = new JButton("编辑");
         JButton btn_add = new JButton("添加"); 
         btn_add.addActionListener(this);
         label_name.setFont(font1);
-//        label_name.setIcon(new ImageIcon("resources\\main.png"));
         label_creator.setFont(font1);
         label_createDate.setFont(font1);
         btn_playAll.setFont(font);
         btn_playAll.setBackground(Color.white);
-        btn_star.setFont(font);
-        btn_star.setBackground(Color.white);
+        btn_del.setFont(font);
+        btn_del.setBackground(Color.white);
         btn_download.setFont(font);
         btn_download.setBackground(Color.white);
         btn_revise.setFont(font);
         btn_revise.setBackground(Color.white);
         btn_add.setFont(font);
         btn_add.setBackground(Color.white);
+        panel.add(label_pic);
         northPanel.add(label_name);
         northPanel.add(label_creator);
         northPanel.add(label_createDate);
         northPanel.add(btn_playAll);
         northPanel.add(btn_add);
-        northPanel.add(btn_download);
-        northPanel.add(btn_star);
+//        northPanel.add(btn_download);
+        northPanel.add(btn_del);
         northPanel.add(btn_revise);
+        panel.add(northPanel);
         /*Map<String, String> map = new HashMap<>();
         map = musicSheet.getMusicItems();
         int size = map.size();
@@ -238,9 +257,9 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         //封面图？？？
         southPanel.add(table.getTableHeader());
         southPanel.add(table);
-        BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        setLayout(layout);
-        this.add(northPanel);
+        BoxLayout Layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(Layout);
+        this.add(panel);
         this.add(southPanel); 
         this.setTableHeaderColor(table,0,Color.WHITE);
         this.setTableHeaderColor(table,1,Color.WHITE);
