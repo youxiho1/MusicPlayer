@@ -190,7 +190,22 @@ public class LocalMusicSheetPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				String inputValue = JOptionPane.showInputDialog("请输入重命名后歌单名字"); 
+				if(inputValue == null || inputValue.length() == 0) { 
+					JOptionPane.showMessageDialog(null, "歌单名不可为空", "错误", JOptionPane.ERROR_MESSAGE);  
+				} 
+				else { 
+					int index = list.getSelectedIndex();
+					MusicSheet musicSheet = localMusicSheetList.get(index);
+					int id = musicSheet.getId();
+					SQLiteDatabase db = new SQLiteDatabase("music.db");
+					ContentValues values = new ContentValues(); 
+					values.put("name",inputValue);
+					db.update("MusicSheet", values, "id = ?", new String [] {String.valueOf(id)}); 
+					musicSheet.setName(inputValue);
+					LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(); 
+					localMusicSheetPanel.setMusicSheet(musicSheet); 
+				}
 			}
 		});
         
@@ -212,6 +227,13 @@ public class LocalMusicSheetPanel extends JPanel {
         System.out.println(localMusicSheetList.size());
         localMusicSheetList.add(sheet);
         data.add(sheet.getName());
+        list.setListData(data);
+    }
+    public void setMusicSheet(MusicSheet sheet) {
+    	int index = list.getSelectedIndex();
+        System.out.println(localMusicSheetList.size());
+        localMusicSheetList.set(index, sheet);
+        data.set(index, sheet.getName());
         list.setListData(data);
     }
 }

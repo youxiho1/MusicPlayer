@@ -1,12 +1,9 @@
 package com.yang.service;
 
 import com.yang.model.Music;
-import com.yang.util.MyAdvancedPlayer;
 import com.yang.view.bottom.Operation;
 
 import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.advanced.AdvancedPlayer;
-
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -38,8 +38,8 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
 	private static MusicSheetInformation musicSheetInformation;
     private MusicSheet musicSheet;
     private List<Music> preMusic;
-    private AddFile addFile; 
     private JTable table; 
+    private AddFile addFile; 
     private Font font = new Font("幼圆", Font.PLAIN, 16);//创建1个字体实例
     private Font font1 = new Font("幼圆", Font.PLAIN, 18);//创建1个字体实例
 
@@ -96,7 +96,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         JButton btn_star = new JButton("收藏");
         JButton btn_download = new JButton("下载");
         JButton btn_revise = new JButton("编辑");
-        JButton btn_add = new JButton("添加歌曲(文件)"); 
+        JButton btn_add = new JButton("添加"); 
         btn_add.addActionListener(this);
         label_name.setFont(font1);
 //        label_name.setIcon(new ImageIcon("resources\\main.png"));
@@ -206,7 +206,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                 if(e.getClickCount() == 2) { 
                     int row = table.getSelectedRow(); 
                     Music music = preMusic.get(row);
-                    Player player = Player.getInstance();
+                    final Player player = Player.getInstance();
                     System.out.println("preMusic:");
                     for (int i = 0; i < preMusic.size(); i++) {
                         System.out.println(preMusic.get(i).getName());

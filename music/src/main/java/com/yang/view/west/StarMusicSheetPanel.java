@@ -3,8 +3,6 @@ package com.yang.view.west;
 import com.yang.model.MusicSheet;
 import com.yang.view.MusicPlayer;
 import com.yang.view.center.MusicSheetInformation;
-import com.yang.view.center.MusicSheetInformation;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
