@@ -99,7 +99,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         BoxLayout southLayout = new BoxLayout(southPanel, BoxLayout.Y_AXIS);
 		southPanel.setLayout(southLayout);
         
-		img=new ImageIcon("resources/defaultSheetIcon.jpg");
+		img=new ImageIcon("resources/default.jpg");
 //		ImageIO.read(new FileInputStream(fnSrc) );//取源图
 		int height = 120; 
 		int width = img.getIconWidth()*120/img.getIconHeight();//按比例，将高度缩减
