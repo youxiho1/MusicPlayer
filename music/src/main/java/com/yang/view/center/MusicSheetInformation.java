@@ -335,6 +335,10 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                 }
             }
             dtm.fireTableStructureChanged();
+            this.setTableHeaderColor(table,0,Color.WHITE);
+            this.setTableHeaderColor(table,1,Color.WHITE);
+            this.setTableHeaderColor(table,2,Color.WHITE);
+            this.setTableHeaderColor(table,3,Color.WHITE);
         }
     }
 }
