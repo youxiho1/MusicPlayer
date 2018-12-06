@@ -139,7 +139,7 @@ public class Operation extends JPanel {
         btn_prev.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final Player player = Player.getInstance();
+                Player player = Player.getInstance();
                 Thread thread = new Thread() {
                     public void run() {
                         player.playPrev();
@@ -181,7 +181,7 @@ public class Operation extends JPanel {
         btn_next.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final Player player = Player.getInstance();
+                Player player = Player.getInstance();
                 Thread thread = new Thread() {
                     public void run() {
                         player.playNext();
