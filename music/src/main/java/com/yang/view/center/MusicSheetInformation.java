@@ -216,6 +216,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                     player.setNowMusic(music);
                     Thread thread = new Thread() {
                         public void run() {
+
                             player.play();
                         }
                     };

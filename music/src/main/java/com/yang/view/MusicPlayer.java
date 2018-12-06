@@ -6,16 +6,29 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.yang.model.Music;
 import com.yang.model.MusicSheet;
 import com.yang.service.Player;
+import com.yang.util.ContentValues;
 import com.yang.util.SQLiteDatabase;
+import com.yang.util.ZoneHttp;
 import com.yang.view.bottom.Operation;
 import com.yang.view.center.MusicSheetInformation;
 import com.yang.view.west.LocalMusicSheetPanel;
+import com.yang.view.west.StarMusicSheetPanel;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class MusicPlayer extends JFrame {
 	private JPanel centerPanel;
@@ -67,8 +80,8 @@ public class MusicPlayer extends JFrame {
 
         //测试数据，记得删除
 //        ContentValues values = new ContentValues();
-//        values.put("name", "测试歌单7");
-//        values.put("creator", "yyy");
+//        values.put("name", "Test");
+//        values.put("creator", "弋晓洋");
 //        values.put("dateCreated", "2018/12/1");
 //        values.put("flag", 1);
 //        values.put("creatorId", "17020031119");
@@ -150,13 +163,35 @@ public class MusicPlayer extends JFrame {
 		westPanel.setLayout(westLayout);
 		westPanel.setPreferredSize(new Dimension(170, 0));
 		final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
-//		final List<MusicSheet> starMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"2"});
+        final List<MusicSheet> starMusicSheetList = new ArrayList<>();
+		Map<String, Object> map = new HashMap();
+        try {
+            String responseData = ZoneHttp.syncGet("http://222.195.146.185:58080/music.server/queryMusicSheets?type=all", map);
+            System.out.println(responseData);
+            JSONObject jsonObject = JSONObject.parseObject(responseData);
+            JSONArray jsonArray = jsonObject.getJSONArray("musicSheetList");
+            for(int i = 0; i < jsonArray.size(); i++) {
+                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                MusicSheet musicSheet = new MusicSheet();
+                musicSheet.setName(jsonObject1.getString("name"));
+                musicSheet.setDatecreated(jsonObject1.getString("dateCreated"));
+                musicSheet.setCreatorid(jsonObject1.getString("creatorId"));
+                musicSheet.setCreator(jsonObject1.getString("creator"));
+                musicSheet.setId(jsonObject1.getInteger("id"));
+                musicSheet.setPicture(jsonObject1.getString("picture"));
+                musicSheet.setUuid(jsonObject1.getString("uuid"));
+                musicSheet.setFlag(2);
+                starMusicSheetList.add(musicSheet);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("size" + starMusicSheetList.size());
 		LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(localMusicSheetList, this);
-//		StarMusicSheetPanel starMusicSheetPanel = StarMusicSheetPanel.getInstance(starMusicSheetList, this);
-		
-		
+        StarMusicSheetPanel starMusicSheetPanel = StarMusicSheetPanel.getInstance(starMusicSheetList, this);
+        //LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(starMusicSheetList, this);
 		westPanel.add(localMusicSheetPanel);
-//		westPanel.add(starMusicSheetPanel);
+        westPanel.add(starMusicSheetPanel);
 		//westPanel.add(new JScrollBar());
 
 		//Center
@@ -164,7 +199,7 @@ public class MusicPlayer extends JFrame {
 		centerPanel.setBackground(Color.WHITE);
 		
 		//South
-		Operation operation = new Operation();
+		Operation operation = Operation.getInstance();
 		
 		//North
         JPanel northPanel = new JPanel();
