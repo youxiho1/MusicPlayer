@@ -85,7 +85,7 @@ public class LocalMusicSheetPanel extends JPanel {
 					values.put("name", inputValue); 
 					values.put("creatorId", "17020031119"); 
 					values.put("creator", "Yi Xiaoyang"); 
-					String nowTime = DateUtil.getNowDateTime("yyyy-MM-dd HH:mm:ss"); 
+					String nowTime = DateUtil.getNowDateTime("yyyy/MM/dd");
 					values.put("dateCreated", nowTime); 
 					values.put("flag", 1); 
 					db.insert("musicsheet", values); 
