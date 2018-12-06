@@ -206,7 +206,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                 if(e.getClickCount() == 2) { 
                     int row = table.getSelectedRow(); 
                     Music music = preMusic.get(row);
-                    final Player player = Player.getInstance();
+                    Player player = Player.getInstance();
                     System.out.println("preMusic:");
                     for (int i = 0; i < preMusic.size(); i++) {
                         System.out.println(preMusic.get(i).getName());
