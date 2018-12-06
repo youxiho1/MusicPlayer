@@ -2,6 +2,7 @@ package com.yang.view.bottom;
 
 import com.yang.model.Music;
 import com.yang.service.ThreadList;
+import com.yang.service.TimerList;
 import com.yang.util.ContentValues;
 import com.yang.service.Player;
 import com.yang.util.SQLiteDatabase;
@@ -14,20 +15,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Operation extends JPanel {
+    private static Operation operation;
     private JLabel label_name;
     private JLabel label_singer;
     private JButton btn_like;
+
+    public JSlider getSlider() {
+        return slider;
+    }
+
     private JSlider slider;
     private ImageIcon ic_unlike = new ImageIcon("resources/unlike.png");
 	private ImageIcon ic_like = new ImageIcon("resources/like.png");
 	private ImageIcon ic_single = new ImageIcon("resources/single.png");
     private ImageIcon ic_order = new ImageIcon("resources/order.png");
     private ImageIcon ic_random = new ImageIcon("resources/random.png");
-    private ImageIcon ic_play = new ImageIcon("resources/play1.png");
-    private ImageIcon ic_stop = new ImageIcon("resources/stop1.png");
     private Font font = new Font("幼圆", Font.PLAIN, 13);
 
-    public Operation() {
+    public static Operation getInstance() {
+        if(operation == null) {
+            operation = new Operation();
+        }
+        return operation;
+    }
+
+    private Operation() {
         setLayout(new FlowLayout());
         setBackground(new Color(244,244,244,244));
         setBorder(BorderFactory.createLineBorder(new Color(219,219,219)));//设置边框
@@ -56,14 +68,15 @@ public class Operation extends JPanel {
     	JButton btn_prev = new JButton(ic_prev);
     	setButtonStyle(btn_prev);
         
-    	final JButton btn_play = new JButton(ic_play);
+        ImageIcon ic_play = new ImageIcon("resources/play1.png");
+    	JButton btn_play = new JButton(ic_play);
     	setButtonStyle(btn_play);
         
         ImageIcon icon3 = new ImageIcon("resources/next1.png");
     	JButton btn_next = new JButton(icon3);
     	setButtonStyle(btn_next);
     
-    	btn_like = new JButton(ic_unlike);
+    	btn_like = new JButton(ic_like);
     	setButtonStyle(btn_like);
         //btn_like初始化???????????
 
@@ -182,15 +195,6 @@ public class Operation extends JPanel {
 //            	 else player.pause();
 //                 if(player.getNowMusic() == null)
 //                 	return;
-            	boolean puase = false;
-            	if(puase) {
-            		btn_play.setIcon(ic_play);
-            		puase = false;
-            	}
-            	else {
-            		btn_play.setIcon(ic_stop);
-            		puase = true;
-            	}
             }
         });
 
@@ -199,6 +203,7 @@ public class Operation extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final Player player = Player.getInstance();
+
                 Thread thread = new Thread() {
                     public void run() {
                         player.playNext();
@@ -216,6 +221,41 @@ public class Operation extends JPanel {
                     threadList.add(thread);
                 }
                 thread.start();
+                slider.setMinimum(0);
+                final int musicTime = player.getMusicTime();
+                System.out.println("yyyyyyyy"+musicTime);
+                slider.setMaximum(musicTime / 1000);
+                javazoom.jl.player.Player myPlayer = player.getMyPlayer();
+                Thread t = new Thread() {
+                    public void run() {
+                        int current = 0;
+                        while(true) {
+                            current++;
+                            System.out.println("abxc");
+                            if(current > musicTime) {
+                                current = 0;
+                            }
+                            operation.setProgress(current);
+                            try {
+                                sleep(1000);
+                            } catch (InterruptedException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+                };
+                ArrayList<Thread> timerList = TimerList.getList();
+                if(timerList.size() == 0) {
+                    TimerList.add(t);
+                } else {
+                    for (Thread timer1 : timerList) {
+                        if (timer1.isAlive()) {       //????????
+                            timer1.stop();
+                        }
+                    }
+                    timerList.add(t);
+                }
+                t.start();
                 Music music = player.getNowMusic();
                 if(player.getNowMusic() == null)
                 	return;
@@ -308,11 +348,16 @@ public class Operation extends JPanel {
         	btn_like.setIcon(ic_unlike);
         }
     }
+
     public void setButtonStyle(JButton btn) {
     	btn.setOpaque(false);
     	btn.setContentAreaFilled(false);
     	btn.setFocusPainted(false);
     	btn.setBorderPainted(false);
     	btn.setBorder(null);
+    }
+
+    public void setProgress(int n) {
+        slider.setValue(n);
     }
 }

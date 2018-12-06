@@ -3,11 +3,12 @@ package com.yang.service;
 import com.yang.model.Music;
 import com.yang.view.bottom.Operation;
 
+import javazoom.jl.decoder.Bitstream;
+import javazoom.jl.decoder.BitstreamException;
+import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.JavaLayerException;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +27,8 @@ public class Player {
     private MODE playMode;
     private Music nowMusic;
     private static Operation operation;
+    private double musicTime;
+
     private javazoom.jl.player.Player myPlayer;
     Object lock = new Object();
 
@@ -150,7 +153,6 @@ public class Player {
     }
 
     public void play() {
-        SourceDataLine line = null;
         operation.changeMusicInformation(nowMusic);
         if(playList == null) {
             JOptionPane.showMessageDialog(null, "无可播放歌曲", "错误", JOptionPane.ERROR_MESSAGE);
@@ -163,8 +165,8 @@ public class Player {
             BufferedInputStream buffer = null;
             buffer = new BufferedInputStream(new FileInputStream(nowMusic.getUrl()));
             myPlayer = new javazoom.jl.player.Player(buffer);
-            //myPlayer.play();
-
+            setMusicTime();
+            myPlayer.play();
             myPlayer.close();
             buffer.close();
             playAuto();
@@ -225,6 +227,10 @@ public class Player {
         nowMusic = null;
     }
 
+    public javazoom.jl.player.Player getMyPlayer() {
+        return myPlayer;
+    }
+
 //    public boolean isPaused() {
 //        return paused;
 //    }
@@ -256,5 +262,35 @@ public class Player {
     public void changeNowList(List<Music> newList) {
         nowList.clear();
         nowList.addAll(newList);
+    }
+
+    private void setMusicTime() {
+        FileInputStream stream = null;
+        Bitstream bitstream = null;
+        Header header = null;
+        int contentLength = 0;
+        try {
+            stream = new FileInputStream(nowMusic.getUrl());
+            if(stream == null) {
+                musicTime = 0.0;
+            }
+            contentLength = stream.available();
+            bitstream = new Bitstream(stream);
+            header = bitstream.readFrame();
+            stream.close();
+            bitstream.close();
+            musicTime = header.total_ms(contentLength);
+        } catch (IOException | BitstreamException e) {
+            e.printStackTrace();
+            musicTime = 0.0;
+        }
+    }
+
+    public int getMusicTime() {
+        return (int)musicTime;
+    }
+
+    public int getPosition() {
+        return myPlayer.getPosition();
     }
 }

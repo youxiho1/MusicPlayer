@@ -99,13 +99,14 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         BoxLayout southLayout = new BoxLayout(southPanel, BoxLayout.Y_AXIS);
 		southPanel.setLayout(southLayout);
         
-		img=new ImageIcon("resources/1.jpg");
+		img=new ImageIcon("resources/default.jpg");
+//		ImageIO.read(new FileInputStream(fnSrc) );//取源图
 		int height = 120; 
 		int width = img.getIconWidth()*120/img.getIconHeight();//按比例，将高度缩减
 		img.setImage(img.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
 		JLabel label_pic = new JLabel("");
 		label_pic.setIcon(img);
-		label_pic.setPreferredSize(new Dimension(120, 120));
+//		label_pic.setSize(new Dimension(80, 80));
         JLabel label_name = new JLabel(musicSheet.getName());
         JLabel label_creator = new JLabel(musicSheet.getCreator());
         JLabel label_createDate = new JLabel(musicSheet.getDatecreated());
@@ -234,6 +235,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                     player.setNowMusic(music);
                     Thread thread = new Thread() {
                         public void run() {
+
                             player.play();
                         }
                     };
@@ -263,11 +265,10 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         this.setTableHeaderColor(table,1,Color.WHITE);
         this.setTableHeaderColor(table,2,Color.WHITE);
         this.setTableHeaderColor(table,3,Color.WHITE);
-//        btn_revise.addActionListener(new ActionListener());
     }
-//    protected Color colorForRow(int row) {
-//        return (row % 2 == 0) ? Color.RED : Color.PINK;
-//    }
+    protected Color colorForRow(int row) {
+        return (row % 2 == 0) ? Color.RED : Color.PINK;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(addFile == null)
@@ -334,10 +335,6 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                 }
             }
             dtm.fireTableStructureChanged();
-            this.setTableHeaderColor(table,0,Color.WHITE);
-            this.setTableHeaderColor(table,1,Color.WHITE);
-            this.setTableHeaderColor(table,2,Color.WHITE);
-            this.setTableHeaderColor(table,3,Color.WHITE);
         }
     }
 }
