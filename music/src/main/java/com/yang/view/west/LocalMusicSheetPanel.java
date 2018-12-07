@@ -172,14 +172,14 @@ public class LocalMusicSheetPanel extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
 				int index = list.getSelectedIndex();
-                if(index == -1) {
-                    JOptionPane.showMessageDialog(null, "您未选中任何歌单", "提示", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else {
+//                if(index == -1) {
+//                    JOptionPane.showMessageDialog(null, "您未选中任何歌单", "提示", JOptionPane.INFORMATION_MESSAGE);
+//                }
+//                else {
                     MusicSheet musicSheet = localMusicSheetList.get(index);
                     MusicSheetInformation musicSheetInformation = new MusicSheetInformation(musicSheet);
                     musicPlayer.changeCenterPanel(musicSheetInformation);
-                }
+//                }
                 revalidate();
                 repaint();
 			}
@@ -216,6 +216,19 @@ public class LocalMusicSheetPanel extends JPanel {
 				// TODO Auto-generated method stub
 				int result = JOptionPane.showConfirmDialog(null, op, "提示",JOptionPane.YES_NO_CANCEL_OPTION );
                 System.out.println("选择结果:"+result);
+                if(result == 0) {
+                	int index = list.getSelectedIndex();
+					MusicSheet musicSheet = localMusicSheetList.get(index);
+					int id = musicSheet.getId();
+					SQLiteDatabase db = new SQLiteDatabase("music.db");
+//					ContentValues values = new ContentValues(); 
+					db.delete("MusicSheet", "id = ?", new String [] {String.valueOf(id)});
+					LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(); 
+					localMusicSheetPanel.delMusicSheet(musicSheet); 
+                }
+                else {
+                	return;
+                }
 			}
 		});
         localPanel.add(titlePanel);
@@ -236,4 +249,13 @@ public class LocalMusicSheetPanel extends JPanel {
         data.set(index, sheet.getName());
         list.setListData(data);
     }
+    public void delMusicSheet(MusicSheet sheet) {
+    	int index = list.getSelectedIndex();
+        System.out.println(localMusicSheetList.size());
+//        localMusicSheetList.set(index, sheet);
+        localMusicSheetList.remove(index);
+        data.remove(index);
+        list.setListData(data);
+    }
+    
 }
