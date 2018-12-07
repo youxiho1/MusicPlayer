@@ -80,6 +80,9 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
     public MusicSheetInformation(MusicSheet nmusicSheet) {
     	setBackground(Color.WHITE);
         this.musicSheet = nmusicSheet;
+        SQLiteDatabase db = new SQLiteDatabase("music.db");
+        List<MusicSheet> temp = db.rawQuery(MusicSheet.class, "select * from MusicSheet where id=?", new String[] {String.valueOf(musicSheet.getId())});
+        musicSheet = temp.get(0);
         JPanel northPanel = new JPanel();
 //        northPanel.setPreferredSize(new Dimension(910,33));
         northPanel.setBackground(new Color(244,244,244,244));
@@ -102,7 +105,11 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
 		final JLabel op = new JLabel("确认删除？");
         Font font2 = new Font("微软雅黑", Font.PLAIN, 14);
         op.setFont(font2);//设置JLabel的字体
-		img=new ImageIcon("resources/default.jpg");
+        String picture = musicSheet.getPicture();
+        if(picture == null || picture.length() == 0) {
+            picture = "resources/default.jpg";
+        }
+		img=new ImageIcon(picture);
 //		ImageIO.read(new FileInputStream(fnSrc) );//取源图
 		int height = 120; 
 		int width = img.getIconWidth()*120/img.getIconHeight();//按比例，将高度缩减
@@ -142,7 +149,6 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         northPanel.add(btn_del);
         northPanel.add(btn_revise);
         panel.add(northPanel);
-        SQLiteDatabase db = new SQLiteDatabase("music.db");
         preMusic = db.rawQuery(Music.class, "select music.id,md5value,name,singer,url,count,islike from music inner join musicsheet_music on music.id=musicsheet_music.id where musicsheet_music.musicsheetid=?", new String[] {String.valueOf(musicSheet.getId())});
         String[][] rowData = null;
         if(preMusic != null) {
@@ -237,6 +243,24 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                     }
                     thread.start();
                 } 
+            }
+        });
+        btn_revise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String path = AddFile.openPictureChooser();
+                System.out.println(path);
+                int sheetId = musicSheet.getId();
+                ContentValues values = new ContentValues();
+                values.put("picture", path);
+                SQLiteDatabase db = new SQLiteDatabase("music.db");
+                db.update("MusicSheet", values, "id=?", new String[] {String.valueOf(sheetId)});
+                img = new ImageIcon(path);
+                int height = 120;
+                int width = img.getIconWidth()*120/img.getIconHeight();//按比例，将高度缩减
+                img.setImage(img.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+
+                label_pic.setIcon(img);
             }
         });
         btn_del.addActionListener(new ActionListener() {

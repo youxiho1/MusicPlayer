@@ -51,5 +51,40 @@ public class AddFile {
    public File[] getFiles() {
    		return files;
    }
+
+    public static String openPictureChooser() {
+        JFileChooser file = new JFileChooser (".");
+        file.setAcceptAllFileFilterUsed(false);
+        file.addChoosableFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                if (file.isDirectory()) {
+                    return true;
+                }
+                String fileName = file.getName();
+                int index = fileName.lastIndexOf('.');
+                if (index > 0 && index < fileName.length() - 1) {
+                    String extension = fileName.substring(index + 1).toLowerCase();
+                    if (extension.equals("jpg")) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public String getDescription() {
+                return ".jpg";
+            }
+        });
+        int result = file.showOpenDialog(null);
+        if(result == JFileChooser.APPROVE_OPTION) {
+            String path = file.getSelectedFile().getAbsolutePath();
+            return path;
+        }
+        else {
+            return "";
+        }
+    }
 }
    

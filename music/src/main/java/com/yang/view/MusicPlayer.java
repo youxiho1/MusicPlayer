@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
-
-import org.apache.commons.codec.digest.DigestUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -34,28 +31,28 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public class MusicPlayer extends JFrame {
-	private JPanel centerPanel;
-	private static final long serialVersionUID = 1L;
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					new MusicPlayer().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-	}
+    private JPanel centerPanel;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create the frame.
-	 */
-	public MusicPlayer() {
-		centerPanel = new JPanel();
-		SQLiteDatabase db = new SQLiteDatabase("music.db");
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new MusicPlayer().setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    /**
+     * Create the frame.
+     */
+    public MusicPlayer() {
+        centerPanel = new JPanel();
+        SQLiteDatabase db = new SQLiteDatabase("music.db");
         final String CREATE_MUSICSHEET = "create table if not exists MusicSheet ("
                 + "id integer primary key autoincrement, "
                 + "uuid text, "
@@ -119,19 +116,19 @@ public class MusicPlayer extends JFrame {
 //        db.insert("MusicSheet", values);
 //        values.clear();
 
-//        values.put("url", "C:\\Users\\yang\\Desktop\\demo\\王源 - 一样.mp3");
+//        values.put("url", "C:\\Users\\yang\\Desktop\\demo\\王源 - 一样 [mqms2].mp3");
 //        values.put("name", "一样 [mqms2]");
 //        values.put("singer", "王源");
 //        try {
-//            values.put("md5value", DigestUtils.md5Hex(new FileInputStream("C:\\Users\\yang\\Desktop\\demo\\王源 - 一样.mp3")));
+//            values.put("md5value", DigestUtils.md5Hex(new FileInputStream("C:\\Users\\yang\\Desktop\\demo\\王源 - 一样 [mqms2].mp3")));
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
 //        db.insert("Music", values);
 //        values.clear();
 //
-//        values.put("musicsheetId", 1);
-//        values.put("id", 1);
+//        values.put("musicsheetId", 7);
+//        values.put("id", 4);
 //        db.insert("MusicSheet_Music", values);
 //        values.clear();
 //        values.put("musicsheetId", 1);
@@ -160,51 +157,61 @@ public class MusicPlayer extends JFrame {
         setSize(1100,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		//West
-		JPanel westPanel = new JPanel();
-		BoxLayout westLayout = new BoxLayout(westPanel, BoxLayout.Y_AXIS);
-		westPanel.setLayout(westLayout);
-		westPanel.setPreferredSize(new Dimension(170, 0));
-		final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
+        //West
+        JPanel westPanel = new JPanel();
+        BoxLayout westLayout = new BoxLayout(westPanel, BoxLayout.Y_AXIS);
+        westPanel.setLayout(westLayout);
+        westPanel.setPreferredSize(new Dimension(170, 0));
+        final List<MusicSheet> localMusicSheetList = db.rawQuery(MusicSheet.class, "select * from MusicSheet where flag = ?", new String[] {"1"});
         final List<MusicSheet> starMusicSheetList = new ArrayList<>();
-		Map<String, Object> map = new HashMap();
-        try {
-            String responseData = ZoneHttp.syncGet("http://222.195.146.185:58080/music.server/queryMusicSheets?type=all", map);
-            System.out.println(responseData);
-            JSONObject jsonObject = JSONObject.parseObject(responseData);
-            JSONArray jsonArray = jsonObject.getJSONArray("musicSheetList");
-            for(int i = 0; i < jsonArray.size(); i++) {
-                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                MusicSheet musicSheet = new MusicSheet();
-                musicSheet.setName(jsonObject1.getString("name"));
-                musicSheet.setDatecreated(jsonObject1.getString("dateCreated"));
-                musicSheet.setCreatorid(jsonObject1.getString("creatorId"));
-                musicSheet.setCreator(jsonObject1.getString("creator"));
-                musicSheet.setId(jsonObject1.getInteger("id"));
-                musicSheet.setPicture(jsonObject1.getString("picture"));
-                musicSheet.setUuid(jsonObject1.getString("uuid"));
-                musicSheet.setFlag(2);
-                starMusicSheetList.add(musicSheet);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("size" + starMusicSheetList.size());
-		LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(localMusicSheetList, this);
-        StarMusicSheetPanel starMusicSheetPanel = StarMusicSheetPanel.getInstance(starMusicSheetList, this);
+        Map<String, Object> map = new HashMap();
+        LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(localMusicSheetList, this);
         //LocalMusicSheetPanel localMusicSheetPanel = LocalMusicSheetPanel.getInstance(starMusicSheetList, this);
-		westPanel.add(localMusicSheetPanel);
-        westPanel.add(starMusicSheetPanel);
-		//westPanel.add(new JScrollBar());
+        westPanel.add(localMusicSheetPanel);
+        ZoneHttp.asyncGet("http://222.195.146.185:58080/music.server/queryMusicSheets?type=all", map, new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                StarMusicSheetPanel starMusicSheetPanel = StarMusicSheetPanel.getInstance(null);
+                westPanel.add(starMusicSheetPanel);
+                add(BorderLayout.WEST, westPanel);
+                repaint();
+            }
 
-		//Center
-		centerPanel = new JPanel();
-		centerPanel.setBackground(Color.WHITE);
-		
-		//South
-		Operation operation = Operation.getInstance();
-		
-		//North
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseData = response.body().string();
+                JSONObject jsonObject = JSONObject.parseObject(responseData);
+                JSONArray jsonArray = jsonObject.getJSONArray("musicSheetList");
+                for(int i = 0; i < jsonArray.size(); i++) {
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                    MusicSheet musicSheet = new MusicSheet();
+                    musicSheet.setName(jsonObject1.getString("name"));
+                    musicSheet.setDatecreated(jsonObject1.getString("dateCreated"));
+                    musicSheet.setCreatorid(jsonObject1.getString("creatorId"));
+                    musicSheet.setCreator(jsonObject1.getString("creator"));
+                    musicSheet.setId(jsonObject1.getInteger("id"));
+                    musicSheet.setPicture(jsonObject1.getString("picture"));
+                    musicSheet.setUuid(jsonObject1.getString("uuid"));
+                    musicSheet.setFlag(2);
+                    starMusicSheetList.add(musicSheet);
+                }
+                StarMusicSheetPanel starMusicSheetPanel = StarMusicSheetPanel.getInstance(starMusicSheetList);
+                westPanel.add(starMusicSheetPanel);
+                add(BorderLayout.WEST, westPanel);
+                repaint();
+            }
+        });
+        //westPanel.add(starMusicSheetPanel);
+        //westPanel.add(new JScrollBar());
+
+        //Center
+        centerPanel = new JPanel();
+        centerPanel.setBackground(Color.WHITE);
+
+        //South
+        Operation operation = Operation.getInstance();
+
+        //North
         JPanel northPanel = new JPanel();
         northPanel.setBackground(new Color(248,248,248,248));
         FlowLayout northLayout = (FlowLayout) northPanel.getLayout();
@@ -216,22 +223,22 @@ public class MusicPlayer extends JFrame {
         label.setIcon(new ImageIcon("resources/main.png"));
         label.setText("音乐播放器");
         northPanel.add(label);
-        
-        Player player = Player.getInstance(operation); 
 
-		//Finally
-		add(BorderLayout.WEST, westPanel);
-		add(BorderLayout.SOUTH, operation);
-		add(BorderLayout.CENTER, centerPanel);
-		add(BorderLayout.NORTH, northPanel);
-		
-	}
+        Player player = Player.getInstance(operation);
 
-	public void changeCenterPanel(MusicSheetInformation musicSheetInformation) {
-		centerPanel.removeAll();
-		centerPanel = musicSheetInformation;
-		add(BorderLayout.CENTER, centerPanel);
-		revalidate();
-	}
+        //Finally
+        add(BorderLayout.WEST, westPanel);
+        add(BorderLayout.SOUTH, operation);
+        add(BorderLayout.CENTER, centerPanel);
+        add(BorderLayout.NORTH, northPanel);
+
+    }
+
+    public void changeCenterPanel(MusicSheetInformation musicSheetInformation) {
+        centerPanel.removeAll();
+        centerPanel = musicSheetInformation;
+        add(BorderLayout.CENTER, centerPanel);
+        revalidate();
+    }
 
 }

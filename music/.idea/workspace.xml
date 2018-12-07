@@ -2,24 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09ebea50-1f48-4681-941c-890906b94e66" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music.db" beforeDir="false" afterPath="$PROJECT_DIR$/music.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/util/AddDirectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/util/AddDirectory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/util/AddFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/util/AddFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/view/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/view/MusicPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/view/center/MusicSheetInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/view/center/MusicSheetInformation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/view/west/LocalMusicSheetPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/view/west/LocalMusicSheetPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/model/Music.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/model/MusicSheet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/util/ContentValues.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/util/DateUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/util/MD5Util.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/util/SQLiteDatabase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/util/ZoneHttp.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/MusicPlayer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/bottom/Operation$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/bottom/Operation$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/bottom/Operation$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/bottom/Operation$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/bottom/Operation$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/bottom/Operation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/center/MusicSheetInformation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/west/LocalMusicSheetPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/view/west/StarMusicSheetPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/view/west/StarMusicSheetPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/view/west/StarMusicSheetPanel.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,8 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/MusicPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="168" column="9" selection-start-line="168" selection-start-column="9" selection-end-line="168" selection-end-column="9" />
+            <state relative-caret-position="117">
+              <caret line="57" column="31" lean-forward="true" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -60,22 +50,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/west/LocalMusicSheetPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="83" column="64" lean-forward="true" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
+            <state relative-caret-position="778">
+              <caret line="124" column="28" lean-forward="true" selection-start-line="124" selection-start-column="28" selection-end-line="124" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/bottom/Operation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5265">
-              <caret line="363" selection-start-line="363" selection-end-line="363" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#4621#5187#0" expanded="true" />
+                <element signature="e#5186#5187#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,8 +64,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/center/MusicSheetInformation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4275">
-              <caret line="317" column="12" selection-start-line="317" selection-start-column="12" selection-end-line="317" selection-end-column="12" />
+            <state relative-caret-position="27">
+              <caret line="77" column="5" lean-forward="true" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
+              <folding>
+                <element signature="e#9269#9419#0" expanded="true" />
+                <element signature="e#9418#9419#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/model/MusicSheet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1350">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -132,7 +128,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/yang/model/Music.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yang/util/Player.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yang/view/center/MusicSheetInformation.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yang/service/PlayThread.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yang/service/TimerList.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yang/service/Player.java" />
@@ -142,6 +137,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/yang/view/MusicPlayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yang/view/west/StarMusicSheetPanel.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yang/view/west/LocalMusicSheetPanel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yang/util/AddFile.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yang/util/AddDirectory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yang/view/center/MusicSheetInformation.java" />
       </list>
     </option>
   </component>
@@ -175,7 +173,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -318,6 +315,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -406,16 +404,17 @@
       <workItem from="1543978826356" duration="23002000" />
       <workItem from="1544074346056" duration="21041000" />
       <workItem from="1544115332878" duration="94000" />
+      <workItem from="1544156657675" duration="3486000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="102599000" />
+    <option name="totallyTimeSpent" value="106085000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="25" width="1307" height="743" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4975728" visible="true" weight="0.30452022" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4975728" visible="true" weight="0.31007138" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -424,7 +423,7 @@
       <window_info id="Favorites" order="6" sideWeight="0.50242716" side_tool="true" weight="0.24980174" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32899022" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49960348" weight="0.32899022" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49960348" visible="true" weight="0.32899022" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39739415" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -453,10 +452,10 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/yang/view/MusicPlayer.java</url>
-          <line>188</line>
+          <url>file://$PROJECT_DIR$/src/main/java/com/yang/view/center/MusicSheetInformation.java</url>
+          <line>350</line>
           <properties />
-          <option name="timeStamp" value="10" />
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -519,16 +518,6 @@
     </entry>
     <entry file="file://$USER_HOME$/桌面/MusicPlayer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/App.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/model/MusicSheet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="90" selection-start-line="90" selection-end-line="90" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/util/SQLiteDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -683,17 +672,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/center/MusicSheetInformation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4275">
-          <caret line="317" column="12" selection-start-line="317" selection-start-column="12" selection-end-line="317" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/west/StarMusicSheetPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-61">
-          <caret line="30" column="61" selection-start-line="30" selection-start-column="61" selection-end-line="30" selection-end-column="61" />
+        <state relative-caret-position="400">
+          <caret line="61" column="19" selection-start-line="61" selection-start-column="19" selection-end-line="61" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -702,20 +684,67 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/MusicPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="168" column="9" selection-start-line="168" selection-start-column="9" selection-end-line="168" selection-end-column="9" />
+        <state relative-caret-position="117">
+          <caret line="57" column="31" lean-forward="true" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/west/LocalMusicSheetPanel.java">
+    <entry file="jar:///usr/lib/jvm/jdk-11/lib/src.zip!/java.desktop/javax/swing/filechooser/FileFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="83" column="64" lean-forward="true" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
+        <state relative-caret-position="43">
+          <caret line="50" column="22" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/util/AddFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="742">
+          <caret line="87" column="5" selection-start-line="87" selection-start-column="5" selection-end-line="87" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/util/AddDirectory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-303">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/model/MusicSheet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1350">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/center/MusicSheetInformation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="77" column="5" lean-forward="true" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
+          <folding>
+            <element signature="e#9269#9419#0" expanded="true" />
+            <element signature="e#9418#9419#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yang/view/west/LocalMusicSheetPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="778">
+          <caret line="124" column="28" lean-forward="true" selection-start-line="124" selection-start-column="28" selection-end-line="124" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4621#5187#0" expanded="true" />
+            <element signature="e#5186#5187#0" expanded="true" />
           </folding>
         </state>
       </provider>

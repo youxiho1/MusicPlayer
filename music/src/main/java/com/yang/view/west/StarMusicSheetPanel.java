@@ -28,19 +28,18 @@ public class StarMusicSheetPanel extends JPanel {
 
     public static StarMusicSheetPanel getInstance() {
         if(starMusicSheetPanel == null) {
-            starMusicSheetPanel = new StarMusicSheetPanel(null, null);
+            starMusicSheetPanel = new StarMusicSheetPanel(null);
         }
         return starMusicSheetPanel;
     }
 
-    public static StarMusicSheetPanel getInstance(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
-        starMusicSheetPanel = new StarMusicSheetPanel(musicSheetList, musicPlayer);
+    public static StarMusicSheetPanel getInstance(List<MusicSheet> musicSheetList) {
+        starMusicSheetPanel = new StarMusicSheetPanel(musicSheetList);
         return starMusicSheetPanel;
     }
 
-    private StarMusicSheetPanel(List<MusicSheet> musicSheetList, final MusicPlayer musicPlayer) {
+    private StarMusicSheetPanel(List<MusicSheet> musicSheetList) {
         starMusicSheetList = musicSheetList;
-        System.out.println(starMusicSheetList.size());
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
         //setPreferredSize(new Dimension(250, 300));
@@ -55,9 +54,13 @@ public class StarMusicSheetPanel extends JPanel {
         title.setFont(font);//设置JLabel的字体
         Font font1 = new Font("幼圆", Font.PLAIN, 14);
         Font font2 = new Font("微软雅黑", Font.PLAIN, 14);
-        ImageIcon ic_add = new ImageIcon("resources/add.png");
 
         titlePanel.add(title);
+        if(musicSheetList == null || musicSheetList.size() == 0) {
+            starPanel.add(titlePanel);
+            this.add(starPanel);
+            return;
+        }
 
         int size = (musicSheetList == null)? 0 : musicSheetList.size();
         if(size > 0) {
