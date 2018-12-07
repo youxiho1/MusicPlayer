@@ -7,6 +7,7 @@ import com.yang.util.AddFile;
 import com.yang.util.ContentValues;
 import com.yang.service.Player;
 import com.yang.util.SQLiteDatabase;
+import com.yang.view.west.LocalMusicSheetPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -98,7 +99,9 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         southPanel.setBackground(Color.white);
         BoxLayout southLayout = new BoxLayout(southPanel, BoxLayout.Y_AXIS);
 		southPanel.setLayout(southLayout);
-        
+		final JLabel op = new JLabel("确认删除？");
+        Font font2 = new Font("微软雅黑", Font.PLAIN, 14);
+        op.setFont(font2);//设置JLabel的字体
 		img=new ImageIcon("resources/default.jpg");
 //		ImageIO.read(new FileInputStream(fnSrc) );//取源图
 		int height = 120; 
@@ -139,24 +142,6 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         northPanel.add(btn_del);
         northPanel.add(btn_revise);
         panel.add(northPanel);
-        /*Map<String, String> map = new HashMap<>();
-        map = musicSheet.getMusicItems();
-        int size = map.size();
-        String[][] rowData = new String[size][];
-        int i = 0;
-        SQLiteDatabase db = new SQLiteDatabase("music.db");
-        for(String md5value : map.keySet()) {
-            rowData[i][0] = String.valueOf(i + 1);
-            rowData[i][1] = map.get(md5value);
-            //如果歌曲都在数据库里？
-            List<Music> list = db.query(Music.class, "Music", null, "md5value=?", new String[] {md5value});
-            if(list != null) {
-                Music temp = list.get(0);
-                preMusic.add(temp);
-                rowData[i][2] = temp.getSinger();
-                rowData[i][3] = "";
-            }
-        }*/
         SQLiteDatabase db = new SQLiteDatabase("music.db");
         preMusic = db.rawQuery(Music.class, "select music.id,md5value,name,singer,url,count,islike from music inner join musicsheet_music on music.id=musicsheet_music.id where musicsheet_music.musicsheetid=?", new String[] {String.valueOf(musicSheet.getId())});
         String[][] rowData = null;
@@ -254,7 +239,28 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
                 } 
             }
         });
-        //封面图？？？
+        btn_del.addActionListener(new ActionListener() {
+    		
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+    			// TODO Auto-generated method stub
+    			int result = JOptionPane.showConfirmDialog(null, op, "提示",JOptionPane.YES_NO_CANCEL_OPTION );
+                System.out.println("选择结果:"+result);
+                if(result == 0) {
+                	int index = table.getSelectedRow();
+    				Music music = preMusic.get(index);
+    				int id = music.getId();
+					int sheetid = musicSheet.getId();
+    				SQLiteDatabase db = new SQLiteDatabase("music.db");
+//    				ContentValues values = new ContentValues(); 
+    				db.delete("MusicSheet_Music", "musicsheetId = ? and id = ?", new String [] {String.valueOf(sheetid), String.valueOf(id)});
+    				delMusic(music); 
+                }
+                else {
+                	return;
+                }
+    		}
+    	});
         southPanel.add(table.getTableHeader());
         southPanel.add(table);
         BoxLayout Layout = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -266,9 +272,7 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
         this.setTableHeaderColor(table,2,Color.WHITE);
         this.setTableHeaderColor(table,3,Color.WHITE);
     }
-    protected Color colorForRow(int row) {
-        return (row % 2 == 0) ? Color.RED : Color.PINK;
-    }
+   
     @Override
     public void actionPerformed(ActionEvent e) {
     	if(addFile == null)
@@ -340,5 +344,12 @@ public class MusicSheetInformation extends JPanel implements ActionListener {
             this.setTableHeaderColor(table,2,Color.WHITE);
             this.setTableHeaderColor(table,3,Color.WHITE);
         }
+    }
+    public void delMusic(Music music) {
+    	int index = table.getSelectedRow();
+        System.out.println(preMusic.size());
+        preMusic.remove(index);
+//        data.remove(index);
+        table.remove(index);
     }
 }

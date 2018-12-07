@@ -252,7 +252,6 @@ public class LocalMusicSheetPanel extends JPanel {
     public void delMusicSheet(MusicSheet sheet) {
     	int index = list.getSelectedIndex();
         System.out.println(localMusicSheetList.size());
-//        localMusicSheetList.set(index, sheet);
         localMusicSheetList.remove(index);
         data.remove(index);
         list.setListData(data);

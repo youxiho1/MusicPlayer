@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -116,19 +119,19 @@ public class MusicPlayer extends JFrame {
 //        db.insert("MusicSheet", values);
 //        values.clear();
 
-//        values.put("url", "C:\\Users\\yang\\Desktop\\demo\\王源 - 一样 [mqms2].mp3");
+//        values.put("url", "C:\\Users\\yang\\Desktop\\demo\\王源 - 一样.mp3");
 //        values.put("name", "一样 [mqms2]");
 //        values.put("singer", "王源");
 //        try {
-//            values.put("md5value", DigestUtils.md5Hex(new FileInputStream("C:\\Users\\yang\\Desktop\\demo\\王源 - 一样 [mqms2].mp3")));
+//            values.put("md5value", DigestUtils.md5Hex(new FileInputStream("C:\\Users\\yang\\Desktop\\demo\\王源 - 一样.mp3")));
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
 //        db.insert("Music", values);
 //        values.clear();
 //
-//        values.put("musicsheetId", 7);
-//        values.put("id", 4);
+//        values.put("musicsheetId", 1);
+//        values.put("id", 1);
 //        db.insert("MusicSheet_Music", values);
 //        values.clear();
 //        values.put("musicsheetId", 1);
